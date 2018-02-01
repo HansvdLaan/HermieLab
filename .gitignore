@@ -2,5 +2,6 @@
 bin/
 out/
 target/
+testoutput/
 temp/
 *.iml

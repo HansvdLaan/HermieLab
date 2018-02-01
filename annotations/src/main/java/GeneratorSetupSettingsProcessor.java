@@ -159,8 +159,6 @@ public class GeneratorSetupSettingsProcessor extends AbstractProcessor {
             e.printStackTrace();
         }
 
-        System.out.println("TEST2-GeneratorSetup");
-
         return true;
     }
 
