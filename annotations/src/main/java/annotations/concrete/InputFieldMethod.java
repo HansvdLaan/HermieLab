@@ -10,7 +10,6 @@ import java.lang.annotation.Target;
 @Repeatable(InputFieldMethods.class)
 public @interface InputFieldMethod {
     String inputFieldID();
-    String[] fieldMethods(); //The id of this output Function, "the input letter of the input alphabet of the learner"
-    //String[] outputFunctionIDs();
+    String[] fieldMethods();
     String[] params();
 }
