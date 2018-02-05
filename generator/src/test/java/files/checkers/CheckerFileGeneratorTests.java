@@ -74,7 +74,7 @@ public final class CheckerFileGeneratorTests {
         testElem(id, "id", "G1",1);
 
         Element nfa = getContent(group).get(1);
-        testElem(nfa, "nfa", "testNFA",1);
+        testElem(nfa, "nfa", "",3);
     }
 
     @Test

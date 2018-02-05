@@ -12,7 +12,7 @@ public class CheckerTransformations {
 
     public static BiFunction<Settings,Element,Element> nfaCheckerTransformation = (settings, root) -> {
         Element nfaCheckerElem = root.addElement("nfachecker");
-        Map<String, Collection<String>> NFAs = new HashMap<>();
+        Map<String, Map<String,Map<String,String>>> NFAs = new HashMap<>();
 
         Map<String, GeneratorInformationElement> elementMap = settings.getSettingsByType("inputfunction");
         for (String id : elementMap.keySet()) {
@@ -21,17 +21,32 @@ public class CheckerTransformations {
             nfaPredicates.values().stream().forEach(predicate -> {
                 String[] parsedPredicate = parseNFAPredicate((String) predicate);
                 String groupID = parsedPredicate[3];
-                String nfaFileName = parsedPredicate[0];
-                NFAs.putIfAbsent(groupID, new HashSet<>());
-                NFAs.get(groupID).add(nfaFileName);
+                String nfaName = parsedPredicate[0];
+                String fileName = parsedPredicate[1];
+                String originalEdge = parsedPredicate[2];
+
+                NFAs.putIfAbsent(groupID, new HashMap<>());
+                NFAs.get(groupID).putIfAbsent(nfaName, new HashMap<>());
+                NFAs.get(groupID).get(nfaName).put("name",nfaName);
+                NFAs.get(groupID).get(nfaName).put("file",fileName + ".jff");
+                long transitionCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("transition(#[0-9]*)?")).count();
+                NFAs.get(groupID).get(nfaName).put("transition#" + transitionCount+1, originalEdge + "," + id);
+
             });
         }
 
         for (String group : NFAs.keySet()) {
             Element groupElem = nfaCheckerElem.addElement("group");
             groupElem.addElement("id").addText(group);
-            for (String nfaFileName : NFAs.get(group)) {
-                groupElem.addElement("nfa").addText(nfaFileName);
+            for (String nfaName : NFAs.get(group).keySet()) {
+                Element nfaElement = groupElem.addElement("nfa");
+                nfaElement.addElement("name").addText(nfaName);
+                nfaElement.addElement("file").addText(NFAs.get(group).get(nfaName).get("file"));
+                List<String> transitions = NFAs.get(group).get(nfaName).keySet().stream().filter(key -> key.matches("transition(#[0-9]*)?")).collect(Collectors.toList());
+                Element transitionElem = nfaElement.addElement("transitions");
+                for (String transition: transitions) {
+                    transitionElem.addElement("transition").addText(NFAs.get(group).get(nfaName).get(transition));
+                }
             }
         }
         return root;
