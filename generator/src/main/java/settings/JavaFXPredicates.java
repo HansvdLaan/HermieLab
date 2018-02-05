@@ -1,4 +1,4 @@
-package utils.predicates;
+package settings;
 
 import javafx.scene.Node;
 
@@ -20,7 +20,7 @@ public class JavaFXPredicates {
             String method = methods.get(i);
             mappings.put(ID, new HashMap<>());
             mappings.get(ID).put("method",method);
-            mappings.get(ID).put("class","utils.predicates.JavaFXPredicates");
+            mappings.get(ID).put("class","settings.JavaFXPredicates");
         }
         return mappings;
     }

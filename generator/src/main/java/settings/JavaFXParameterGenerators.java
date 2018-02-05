@@ -1,4 +1,4 @@
-package utils.parametergenerators;
+package settings;
 
 import javafx.event.Event;
 import javafx.scene.input.MouseButton;
@@ -15,8 +15,8 @@ public class JavaFXParameterGenerators {
 
     public static Map<String,Map<String,Object>> getMappings(){
         Map<String,Map<String,Object>> mappings = new HashMap<>();
-        List<String> IDs = Arrays.asList("javaFX:mouse_drag_detected","javaFX:mouse_clicked","javaFX:mouse_dragged","javaFX:mouse_entered",
-                "javaFX:mouse_exited","javaFX:mouse_moved","javaFX:mouse_pressed","javaFX:mouse_released");
+        List<String> IDs = Arrays.asList("javaFX:mouse_drag_detect","javaFX:mouse_click","javaFX:mouse_drag","javaFX:mouse_enter",
+                "javaFX:mouse_exit","javaFX:mouse_move","javaFX:mouse_press","javaFX:mouse_release");
         List<String> methods = Arrays.asList("generatePMBDragDetectedEvent()","generatePMBClickedEvent()","generatePMBDraggedEvent()","generatePMBEnteredEvent()",
                 "generatePMBExitedEvent()","generatePMBMovedEvent()","generatePMBPressedEvent()","generatePMBReleasedEvent()");
         for (int i = 0; i < IDs.size(); i++){
@@ -24,7 +24,7 @@ public class JavaFXParameterGenerators {
             String method = methods.get(i);
             mappings.put(ID, new HashMap<>());
             mappings.get(ID).put("method",method);
-            mappings.get(ID).put("class","utils.parametergenerators.JavaFXParameterGenerators");
+            mappings.get(ID).put("class","settings.JavaFXParameterGenerators");
         }
         return mappings;
     }

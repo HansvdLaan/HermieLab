@@ -1,4 +1,4 @@
-package utils.predicates;
+package settings;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -18,7 +18,7 @@ public class UtilsPredicates {
             String method = methods.get(i);
             mappings.put(ID, new HashMap<>());
             mappings.get(ID).put("method",method);
-            mappings.get(ID).put("class","utils.predicates.JavaFXPredicates");
+            mappings.get(ID).put("class","settings.JavaFXPredicates");
         }
         return mappings;
     }

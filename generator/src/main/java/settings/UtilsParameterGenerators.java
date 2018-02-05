@@ -1,4 +1,4 @@
-package utils.parametergenerators;
+package settings;
 
 import java.util.HashMap;
 import java.util.Map;
