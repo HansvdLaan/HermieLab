@@ -33,5 +33,43 @@
         </plugins>
     </build>
 
-    
+    <dependencies>
+
+        <dependency>
+            <groupId>hansvdlaan.hermielab</groupId>
+            <artifactId>core</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+        <dependency>
+            <groupId>hansvdlaan.hermielab</groupId>
+            <artifactId>annotations</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.dom4j/dom4j -->
+        <dependency>
+            <groupId>org.dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>2.1.0</version>
+        </dependency>
+
+        <!-- For the annotatation unit testing -->
+        <dependency>
+            <groupId>com.google.testing.compile</groupId>
+            <artifactId>compile-testing</artifactId>
+            <version>0.13</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.squareup</groupId>
+            <artifactId>javapoet</artifactId>
+            <version>1.9.0</version>
+        </dependency>
+
+
+    </dependencies>
+
+
 </project>

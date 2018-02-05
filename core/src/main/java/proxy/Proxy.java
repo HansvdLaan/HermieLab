@@ -30,9 +30,9 @@ public class Proxy<CO> implements SUL<ConcreteInvocation,CO> {
     public CO step(@Nullable ConcreteInvocation in) throws SULException {
         CO ret;
         assert in != null;
-        if (in.getInputInstanceID().equals(in.getOutputInstanceID())) {
+        if (in.getOutputInstanceID().equals("this")) {
             adapter.preInputInvocation();
-            ret = adapter.process(in.getInputInstanceID());
+            ret = adapter.process(in.getInputInstanceID(),in.getOutputInstanceID());
             adapter.postInputInvocation();
         } else {
             adapter.preInputInvocation();
