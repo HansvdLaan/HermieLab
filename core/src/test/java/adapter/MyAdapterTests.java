@@ -23,15 +23,15 @@ public final class MyAdapterTests {
 
     @Test
     public void processBasicTest(){
-        assertEquals(true,adapter.process("a"));
-        assertEquals(false,adapter.process("b"));
-        assertEquals(true,adapter.process("c"));
+        assertEquals(true,adapter.process("a","this"));
+        assertEquals(false,adapter.process("b","this"));
+        assertEquals(true,adapter.process("c","this"));
     }
 
     @Test
     public void processIllegalArgumentTest(){
         exception.expect(IllegalArgumentException.class);
-        adapter.process("d");
+        adapter.process("d","this");
     }
 
     @Test

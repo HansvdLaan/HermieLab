@@ -5,17 +5,10 @@ import java.util.Optional;
 
 public abstract class Adapter<AO, CO> {
 
-    public CO process(String inputID) {
-        Optional<CO> output = processInput(inputID);
-        if (output.isPresent()){
-            return output.get();
-        } else {
-            throw new IllegalArgumentException("method with inputID: " + inputID + " returned an empty optional");
-        }
-    }
+    private Optional<CO> output;
 
     public CO process(String inputID, String outputID) {
-        processInput(inputID);
+        output = processInput(inputID);
         return processOutput(outputID);
     }
 
@@ -52,5 +45,14 @@ public abstract class Adapter<AO, CO> {
     public abstract void preOutputInvocation();
 
     public abstract void postOutputInvocation();
+
+    public CO getInputCO() {
+        if (output.isPresent()) {
+            return this.output.get();
+        }
+        else {
+            throw new IllegalStateException("Optional output is empty");
+        }
+    }
 
 }

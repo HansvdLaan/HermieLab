@@ -30,6 +30,8 @@ public class MyAdapter extends Adapter<String,Object>{
         switch (outputID){
             case "output":
                 return this.output();
+            case "this":
+                return (Boolean) this.getInputCO();
             default:
                 throw new IllegalArgumentException("unkown outputID: " + outputID);
         }
