@@ -4,7 +4,6 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Node;
 import org.dom4j.io.SAXReader;
-import package2.Settings;
 import settings.containers.GeneratorInformationElement;
 import settings.containers.GeneratorInformationElementParser;
 
@@ -19,9 +18,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * Created by Hans on 19-1-2018.
- */
 public class SettingsParser {
 
     public static List<Settings> readSettings(List<Document> documents) {

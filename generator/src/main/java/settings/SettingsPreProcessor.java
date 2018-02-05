@@ -1,13 +1,8 @@
 package settings;
 
-import package2.Settings;
-
 import java.util.*;
 import java.util.function.BiFunction;
 
-/**
- * Created by Hans on 19-1-2018.
- */
 public class SettingsPreProcessor {
 
     private List<BiFunction<

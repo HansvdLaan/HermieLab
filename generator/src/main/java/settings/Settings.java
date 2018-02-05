@@ -1,13 +1,10 @@
-package package2;
+package settings;
 
 import settings.containers.GeneratorInformationElement;
 
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by Hans on 19-1-2018.
- */
 public class Settings {
 
     private Map<String,Map<String,GeneratorInformationElement>> internalMap;

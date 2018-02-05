@@ -37,6 +37,6 @@ public class GeneratorInformationElementParser {
            anonymousIDCounter.put(type, anonymousIDCounter.get(type) + 1);
        }
 
-       return new GeneratorInformationElement(id, type, data);
+       return new GeneratorInformationElement(type, id, data);
    }
 }

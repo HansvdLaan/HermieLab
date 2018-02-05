@@ -1,7 +1,7 @@
 package settings.transformations;
 
-import package2.Settings;
-import settings.SettingsPreProcessorUtils;
+import settings.Settings;
+import settings.utils.ClassUtils;
 import settings.containers.GeneratorInformationElement;
 import settings.transformers.PredicateTransformer;
 
@@ -12,9 +12,6 @@ import java.util.*;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-/**
- * Created by Hans on 19-1-2018.
- */
 public class GeneralTransformations {
 
 
@@ -134,10 +131,10 @@ public class GeneralTransformations {
                 inputFieldMethodData.put("param#0", "Event:" + event);
 
                 try {
-                    VariableElement fieldElement = SettingsPreProcessorUtils.getField(SettingsPreProcessorUtils.getClass(clazz), field);
+                    VariableElement fieldElement = ClassUtils.getField(ClassUtils.getClass(clazz), field);
                     TypeMirror fieldType = fieldElement.asType();
-                    TypeMirror javaFXType = SettingsPreProcessorUtils.getClass("javafx.scene.Node").asType();
-                    if (SettingsPreProcessorUtils.getInstance().getPrEnv().getTypeUtils().isAssignable(fieldType, javaFXType)) {
+                    TypeMirror javaFXType = ClassUtils.getClass("javafx.scene.Node").asType();
+                    if (ClassUtils.getInstance().getPrEnv().getTypeUtils().isAssignable(fieldType, javaFXType)) {
                         inputFieldMethodData.put("method#" + i, "fireEvent(javafx.event.Event)");
                     } else if (false) {
                         //TODO: handle javaFX case
@@ -221,7 +218,7 @@ public class GeneralTransformations {
                 if (element.getData().containsKey("class")) {
                     String clazz = element.getData().get("class").toString();
                     try {
-                        element.getData().put("class", SettingsPreProcessorUtils.getClass(clazz));
+                        element.getData().put("class", ClassUtils.getClass(clazz));
                     } catch (ClassNotFoundException e) {
                         e.printStackTrace();
                     }
@@ -231,7 +228,7 @@ public class GeneralTransformations {
                         TypeElement clazz = (TypeElement) element.getData().get("class");
                         String field = element.getData().get("field").toString();
                         try {
-                            element.getData().put("field", SettingsPreProcessorUtils.getField(clazz, field));
+                            element.getData().put("field", ClassUtils.getField(clazz, field));
                         } catch (ClassNotFoundException e) {
                             e.printStackTrace();
                         }
@@ -245,13 +242,13 @@ public class GeneralTransformations {
                         if (element.getData().containsKey("field") && element.getData().get("field") instanceof VariableElement) {
                             VariableElement field = (VariableElement) element.getData().get("field");
                             try {
-                                element.getData().put("method", SettingsPreProcessorUtils.getMethod(clazz, field, method));
+                                element.getData().put("method", ClassUtils.getMethod(clazz, field, method));
                             } catch (NoSuchMethodException | ClassNotFoundException e) {
                                 e.printStackTrace();
                             }
                         } else {
                             try {
-                                element.getData().put("method", SettingsPreProcessorUtils.getMethod(clazz, method));
+                                element.getData().put("method", ClassUtils.getMethod(clazz, method));
                             } catch (NoSuchMethodException e) {
                                 e.printStackTrace();
                             }
@@ -279,7 +276,7 @@ public class GeneralTransformations {
         return settings;
     };
 
-    private static List<String> getOrderedParameters(GeneratorInformationElement element, String regex){
+    public static List<String> getOrderedParameters(GeneratorInformationElement element, String regex){
         List<String> orderedParameterIDs = new ArrayList<>(element.getDataSubset(regex).keySet());
         Collections.sort(orderedParameterIDs);
         return orderedParameterIDs.stream().map(key -> element.getData().get(key).toString()).collect(Collectors.toList());
@@ -381,7 +378,7 @@ public class GeneralTransformations {
             if (predicate.matches(".*:+.*")){
                 String newID = element.getId() + key + generalPredicateCounter;
                 element.getData().put(key, newID);
-                Map<String,Object> parameters = PredicateTransformer.find(predicate);
+                Map<String,Object> parameters = PredicateTransformer.getData(predicate);
                 for (int i = 0; i < variables.length; i++){
                     String variable = variables[i];
                     if (!variable.matches(".*:+.*")) {

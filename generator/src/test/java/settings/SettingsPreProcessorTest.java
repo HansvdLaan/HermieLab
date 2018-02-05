@@ -5,10 +5,11 @@ import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import package2.Settings;
-import settings.annotations.PreProcessorUtilsTestProcessor;
 import settings.containers.GeneratorInformationElement;
 import settings.transformations.GeneralTransformations;
+import settings.utils.ClassUtils;
+import settings.utils.ClassUtilsTest;
+import testutils.DummyPreProcessor;
 
 import java.io.File;
 import java.util.HashMap;
@@ -35,11 +36,11 @@ public final class SettingsPreProcessorTest {
 
     @BeforeClass
     public static void setUpProcessor() throws DocumentException {
-        Document settings = SettingsParser.toDocument(new File(SettingsPreProcessorUtilsTest.class.getResource("/settings/settings0.xml").getPath()));
-        PreProcessorUtilsTestProcessor processor = (PreProcessorUtilsTestProcessor) javac().withProcessors(new PreProcessorUtilsTestProcessor()).compile(
+        Document settings = SettingsParser.toDocument(new File(ClassUtilsTest.class.getResource("/settings/settings0.xml").getPath()));
+        DummyPreProcessor processor = (DummyPreProcessor) javac().withProcessors(new DummyPreProcessor()).compile(
                 JavaFileObjects.forResource("GameController.java"),
                 JavaFileObjects.forResource("rocketgame/RocketGame.java")).compiler().processors().get(0);
-        SettingsPreProcessorUtils.getInstance().setPrEnv(processor.getPreEnv());
+        ClassUtils.getInstance().setPrEnv(processor.getPreEnv());
     }
 
     @BeforeClass
@@ -48,7 +49,7 @@ public final class SettingsPreProcessorTest {
         Map<String,Object> startParameters = new HashMap<>();
         startParameters.put("automaton","dfa");
         startParameters.put("method","start(javafx.stage.Stage)");
-        startParameters.put("class","rocketgame.RocketGame");
+        startParameters.put("class","RocketGame");
         startParameters.put("order",0);
         startSettings.addSettingsByTypeAndID("start","startTestID",
                 new GeneratorInformationElement("startTestID","start",startParameters));
@@ -58,7 +59,7 @@ public final class SettingsPreProcessorTest {
     public static void setUpReflectionSettings() {
         reflectionSettings = new Settings();
         Map<String, Object> reflectionParameters1 = new HashMap<>();
-        reflectionParameters1.put("class","rocketgame.RocketGame");
+        reflectionParameters1.put("class","RocketGame");
         reflectionParameters1.put("method","start(javafx.stage.Stage)");
         Map<String, Object> reflectionParameters2 = new HashMap<>();
         reflectionParameters2.put("class","GameController");
