@@ -52,7 +52,7 @@ public class GeneratorUtils {
             } else {
                 builder.addCode("case \"" + methodID + "\":\n")
                         .addCode(CodeBlock.builder().indent().build())
-                        .addStatement("$&gtreturn $T.of(this.$N())$&lt", Optional.class, methods.get(methodID))
+                        .addStatement("return $T.of(this.$N())", Optional.class, methods.get(methodID))
                         .addCode(CodeBlock.builder().unindent().build());
             }
         }
