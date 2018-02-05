@@ -1,22 +1,62 @@
 package settings.transformers;
 
-import parametergenerators.JavaFXParameterGenerators;
+import annotations.util.ParameterGenerator;
+import settings.utils.ClassUtils;
+import settings.JavaFXParameterGenerators;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import java.util.*;
 
-/**
- * Created by Hans on 31-1-2018.
- */
 public class ParameterGeneratorTransformer {
 
-    private Map<String,Map<String,Object>> generalParameterGenerators = new HashMap<>();
+    public static Set<String> SUPPORTEDPRIMITIVES = new HashSet<String>(
+            Arrays.asList("string","byte","char","short","int","integer","long","float","double","boolean","bool"));
 
-    public static Map<String, Object> find(String id){
+    private Map<String, Map<String, Object>> generalParameterGenerators = new HashMap<>();
+
+    public static Map<String, Object> getData(String id) {
         return getInstance().generalParameterGenerators.get(id);
     }
 
-    public static void addParameterGenerator(String prefix, String id, Map<String,Object> parameters){
+    public static ExecutableElement getMethod(String id) throws ClassNotFoundException, NoSuchMethodException {
+        Map<String, Object> data = getInstance().generalParameterGenerators.get(id);
+        if (data == null) {
+            data = getData(id);
+        }
+        TypeElement clazz = ClassUtils.getClass((String) data.get("class"));
+        return ClassUtils.getMethod(clazz, data.get("method").toString());
+    }
+
+
+    public static Object getValue(String type, String value){
+        switch (type) {
+            case "string":
+                return value;
+            case "byte":
+                return Byte.valueOf(value);
+            case "char":
+                return value.charAt(0);
+            case "short":
+                return Short.valueOf(value);
+            case "int":
+            case "integer":
+                return Integer.valueOf(value);
+            case "long":
+                return Long.valueOf(value);
+            case "float":
+                return Float.valueOf(value);
+            case "double":
+                return Double.valueOf(value);
+            case "boolean":
+            case "bool":
+                return Boolean.valueOf(value);
+            default:
+                throw new IllegalStateException("Unkown primitive type:" + type);
+        }
+    }
+
+    public static void addParameterGenerator(String prefix, String id, Map<String, Object> parameters) {
         getInstance().generalParameterGenerators.put(prefix + ":" + id, parameters);
     }
 
@@ -27,6 +67,7 @@ public class ParameterGeneratorTransformer {
     }
 
     private ParameterGeneratorTransformer() {
-        generalParameterGenerators.putAll(JavaFXParameterGenerators.getMappings());
+        generalParameterGenerators.putAll(JavaFXParameterGenerators.getInstance().getMappings());
     }
+
 }
