@@ -1,6 +1,6 @@
 package annotations.concrete;
 
-import annotations.repeat.OutputFieldMethods;
+import annotations.concrete.repeat.OutputFieldMethods;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Repeatable;

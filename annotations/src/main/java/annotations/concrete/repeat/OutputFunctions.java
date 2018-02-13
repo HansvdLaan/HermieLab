@@ -1,4 +1,4 @@
-package annotations.repeat;
+package annotations.concrete.repeat;
 
 import annotations.concrete.OutputFunction;
 
