@@ -20,12 +20,15 @@ public class ComponentGenerator {
     private List<String> methodTypeOrder;
     private List<String> fieldTypeOrder;
 
-    private TypeSpec component;
-
+    @Deprecated
     public ComponentGenerator(Settings settings, String className){
+        this(className);
+        this.settings = settings;
+    }
+
+    public ComponentGenerator(String className){
         transformations = new ArrayList<>();
         this.generatedSpecs = new GeneratedSpecContainer();
-        this.settings = settings;
         this.className = className;
         this.methodTypeOrder = new ArrayList<>();
     }
@@ -100,5 +103,13 @@ public class ComponentGenerator {
 
     public void setFieldTypeOrder(List<String> fieldTypeOrder) {
         this.fieldTypeOrder = fieldTypeOrder;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 }

@@ -16,8 +16,11 @@ public class AdapterGenerator extends ComponentGenerator {
     public static List<String> METHODTYPEORDER = Arrays.asList("constructor","parametergenerator","predicate","inputfunction","outputfunction");
     public static List<String> FIELDTYPEORDER = Arrays.asList("");
 
-    public AdapterGenerator(Settings init) {
-        super(init, CLASSNAME);
+    public AdapterGenerator(Settings settings){
+        super(settings, CLASSNAME);
+    }
+    public AdapterGenerator() {
+        super(CLASSNAME);
         setFieldTypeOrder(FIELDTYPEORDER);
         setMethodTypeOrder(METHODTYPEORDER);
         addTransformation(AdapterTransformations.GenerateWrappedMethods);
