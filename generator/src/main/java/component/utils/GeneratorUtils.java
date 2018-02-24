@@ -1,11 +1,12 @@
 package component.utils;
 
 import com.squareup.javapoet.*;
+//
 import com.sun.tools.javac.code.Symbol;
 import settings.containers.GeneratorInformationElement;
 import settings.transformations.GeneralTransformations;
 import settings.transformers.ParameterGeneratorTransformer;
-import settings.utils.ClassUtils;
+import utils.ClassUtils;
 
 import javax.lang.model.element.*;
 import java.util.*;

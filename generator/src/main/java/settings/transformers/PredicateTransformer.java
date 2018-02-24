@@ -1,6 +1,6 @@
 package settings.transformers;
 
-import settings.utils.ClassUtils;
+import utils.ClassUtils;
 import settings.JavaFXPredicates;
 import settings.UtilsPredicates;
 

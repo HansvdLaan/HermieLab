@@ -1,7 +1,6 @@
 package settings.transformers;
 
-import annotations.util.ParameterGenerator;
-import settings.utils.ClassUtils;
+import utils.ClassUtils;
 import settings.JavaFXParameterGenerators;
 
 import javax.lang.model.element.ExecutableElement;

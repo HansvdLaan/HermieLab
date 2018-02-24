@@ -5,21 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>hansvdlaan.hermielab</groupId>
-    <artifactId>hermielab</artifactId>
+    <artifactId>core-tests</artifactId>
     <version>0.1-SNAPSHOT</version>
-
-    <packaging>pom</packaging>
-
-    <modules>
-        <module>core</module>
-        <module>core-tests</module>
-        <module>annotations</module>
-        <module>annotations-tests</module>
-        <module>generator</module>
-        <module>generator-tests</module>
-        <module>processor</module>
-        <module>processor-tests</module>
-    </modules>
 
     <build>
         <plugins>
@@ -46,4 +33,22 @@
         </plugins>
     </build>
 
+    <dependencies>
+
+        <dependency>
+            <groupId>hansvdlaan.hermielab</groupId>
+            <artifactId>core</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency>
+
+        <!-- For the annotatation unit testing -->
+        <dependency>
+            <groupId>com.google.testing.compile</groupId>
+            <artifactId>compile-testing</artifactId>
+            <version>0.13</version>
+            <scope>test</scope>
+        </dependency>
+
+    </dependencies>
+    
 </project>

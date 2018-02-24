@@ -17,7 +17,14 @@ public class AdapterGenerator extends ComponentGenerator {
     public static List<String> FIELDTYPEORDER = Arrays.asList("");
 
     public AdapterGenerator(Settings settings){
-        super(settings, CLASSNAME);
+        super(settings,CLASSNAME);
+        setFieldTypeOrder(FIELDTYPEORDER);
+        setMethodTypeOrder(METHODTYPEORDER);
+        addTransformation(AdapterTransformations.GenerateWrappedMethods);
+        this.addTransformation(AdapterTransformations.GenerateConstructor);
+        this.addTransformation(AdapterTransformations.GenerateWrappedMethods);
+        this.addTransformation(AdapterTransformations.GenerateSwitchCaseAggregators);
+        this.addTransformation(AdapterTransformations.GenerateAggregators);
     }
     public AdapterGenerator() {
         super(CLASSNAME);

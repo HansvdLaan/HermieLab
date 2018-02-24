@@ -1,7 +1,7 @@
 package settings.transformations;
 
 import settings.Settings;
-import settings.utils.ClassUtils;
+import utils.ClassUtils;
 import settings.containers.GeneratorInformationElement;
 import settings.transformers.PredicateTransformer;
 
