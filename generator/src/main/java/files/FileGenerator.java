@@ -66,6 +66,7 @@ public class FileGenerator {
         return document;
     }
 
+    @Deprecated
     public void writeToFile(String path){
         // Pretty print the document to a file
         if (!path.equals("")){
