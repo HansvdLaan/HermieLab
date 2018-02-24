@@ -4,8 +4,8 @@ import files.FileGenerator;
 
 public class MappingsGenerator extends FileGenerator {
 
-    public MappingsGenerator(String documentName, String rootName) {
-        super(documentName, rootName);
+    public MappingsGenerator() {
+        super("mappings", "settings");
         addTransformation(MappingsTransformations.abstractSymbolTransformation);
     }
 }
