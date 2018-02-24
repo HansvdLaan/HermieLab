@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<checkers>
+  <nfachecker>
+    <group>
+      <id>G1</id>
+      <nfa>
+        <name>testNFA</name>
+        <file>C:\Users\Gebruiker\Documents\learnlib\HermieLab\core\src\main\resources\checker\nfas\basic\alternate2.jff</file>
+        <transitions>
+          <transition>1,CI1</transition>
+          <transition>2,CI2</transition>
+          <transition>2,CI3</transition>
+        </transitions>
+      </nfa>
+    </group>
+  </nfachecker>
+  <guichecker>
+    <group>
+      <id>GUI</id>
+      <nfa>
+        <name>MouseEventNFAWidget1</name>
+        <file>C:\Users\Gebruiker\Documents\learnlib\HermieLab\core\src\main\resources\checker\nfas\gui\mouseevents.jff</file>
+        <transitions>
+          <transition>PRESS,P1</transition>
+          <transition>RELEASE,R1</transition>
+          <transition>DRAG,D1</transition>
+        </transitions>
+      </nfa>
+      <nfa>
+        <name>MouseEventNFAWidget2</name>
+        <file>C:\Users\Gebruiker\Documents\learnlib\HermieLab\core\src\main\resources\checker\nfas\gui\mouseevents.jff</file>
+        <transitions>
+          <transition>PRESS,P2</transition>
+          <transition>RELEASE,R2</transition>
+          <transition>DRAG,D2</transition>
+        </transitions>
+      </nfa>
+    </group>
+  </guichecker>
+  <predicatechecker>
+    <input>
+      <id>CI1</id>
+      <predicate>aPredicate</predicate>
+    </input>
+    <input>
+      <id>CI2</id>
+      <predicate>bPredicate</predicate>
+      <predicate>dPredicate</predicate>
+    </input>
+    <input>
+      <id>CI3</id>
+      <predicate>cPredicate</predicate>
+    </input>
+  </predicatechecker>
+</checkers>

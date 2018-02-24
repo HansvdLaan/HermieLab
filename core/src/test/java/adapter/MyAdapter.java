@@ -67,7 +67,7 @@ public class MyAdapter extends Adapter<String,Object>{
 
     @Override
     public void start() {
-
+        //instance.
     }
 
     @Override
