@@ -27,10 +27,11 @@ public final class CheckerFileGeneratorTests {
         String type = "inputfunction";
         String ID1 = "permissionFalse";
         String ID2 = "permissionTrue";
+        String ID3 = "permissionAlsoFalse";
 
         Map<String, Object> params1 = new HashMap<>();
         params1.put("output","output");
-        params1.put("nfapredicate","testNFA#NFARepeatSequence2[2]#G1");
+        params1.put("nfapredicate","testNFA#NFARepeatSequence2[1]#G1#p1#!p1");
         params1.put("input","rectractPermission");
         params1.put("predicate","p1");
         params1.put("method","setPermission(boolean)");
@@ -42,7 +43,7 @@ public final class CheckerFileGeneratorTests {
 
         Map<String, Object> params2 = new HashMap<>();
         params2.put("output","output");
-        params2.put("nfapredicate","testNFA#NFARepeatSequence2[2]#G1");
+        params2.put("nfapredicate","testNFA#NFARepeatSequence2[2]#G1#_#_");
         params2.put("input","rectractPermission");
         params2.put("predicate","p1");
         params2.put("method","setPermission(boolean)");
@@ -51,6 +52,18 @@ public final class CheckerFileGeneratorTests {
         params2.put("class","GamceController");
         params2.put("param#0","Bool:False");
         settings.addSettingsByTypeAndID(type,ID2,new GeneratorInformationElement(type,ID2,params2));
+
+        Map<String, Object> params3 = new HashMap<>();
+        params3.put("output","output");
+        params3.put("nfapredicate","testNFA#NFARepeatSequence2[2]#G1#_#p1");
+        params3.put("input","rectractPermission2");
+        params3.put("predicate","p1");
+        params3.put("method","setPermission(boolean)");
+        params3.put("id",ID3);
+        params3.put("type",type);
+        params3.put("class","GamceController");
+        params3.put("param#0","Bool:False");
+        settings.addSettingsByTypeAndID(type,ID3,new GeneratorInformationElement(type,ID3,params3));
     }
 
     @Test
@@ -74,7 +87,7 @@ public final class CheckerFileGeneratorTests {
         testElem(id, "id", "G1",1);
 
         Element nfa = getContent(group).get(1);
-        testElem(nfa, "nfa", "",3);
+        testElem(nfa, "nfa", "",5);
     }
 
     @Test
@@ -89,7 +102,7 @@ public final class CheckerFileGeneratorTests {
         testElem(generator.getDocument().getRootElement(), "checkers",1);
 
         Element predicateChecker = getContent(generator.getDocument().getRootElement()).get(0);
-        testElem(predicateChecker, "predicatechecker",2);
+        testElem(predicateChecker, "predicatechecker",3);
 
         List<Element> inputs = getContent(predicateChecker);
         testElem(inputs.get(0),"input",2);
