@@ -4,7 +4,6 @@ import com.squareup.javapoet.*;
 //
 import com.sun.tools.javac.code.Symbol;
 import settings.containers.GeneratorInformationElement;
-import settings.transformations.GeneralTransformations;
 import settings.transformers.ParameterGeneratorTransformer;
 import utils.ClassUtils;
 
@@ -112,15 +111,18 @@ public class GeneratorUtils {
         TypeElement clazz;
         ExecutableElement method;
         VariableElement field;
-        List<String> paramIDs = GeneralTransformations.getOrderedParameters(element, "param(#[0-9]*)?");
+        List<String> paramIDs = element.getStringAttribute("param");
         Object[] parameters = new Object[paramIDs.size()];
 
-        clazz = ClassUtils.getClass(element.getData().get("class").toString());
-        if (element.getData().get("field") != null) {
-            field = ClassUtils.getField(clazz, element.getData().get("field").toString());
-            method = ClassUtils.getMethod(clazz, field, element.getData().get("method").toString());
+        String classString = element.getStringAttribute("class").get(0);
+        clazz = ClassUtils.getClass(classString);
+        String methodString = element.getStringAttribute("method").get(0);
+        System.out.println("method:" + methodString);
+        if (element.getAttribute("field").size() != 0) {
+            field = ClassUtils.getField(clazz, element.getStringAttribute("field").get(0));
+            method = ClassUtils.getMethod(clazz, field, methodString);
         } else {
-            method = ClassUtils.getMethod(clazz, element.getData().get("method").toString());
+            method = ClassUtils.getMethod(clazz, methodString);
         }
         for (int i = 0; i < paramIDs.size(); i++) {
             String paramID = paramIDs.get(i);
@@ -135,7 +137,7 @@ public class GeneratorUtils {
             }
         }
 
-        String methodName = element.getId().substring(0,1).toLowerCase() + element.getId().substring(1);
+        String methodName = element.getID().substring(0,1).toLowerCase() + element.getID().substring(1);
         MethodSpec.Builder builder = MethodSpec.methodBuilder(methodName)
                 .addModifiers(Modifier.PUBLIC);
         if (isVoid){

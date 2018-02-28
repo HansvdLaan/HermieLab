@@ -78,41 +78,41 @@ public final class WrapperGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "InputFunction1", data1);
-        simpleInputFunctionSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        simpleInputFunctionSettings.addElement(element1);
 
         parametrizedInputFunctionSettings1 = new Settings();
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
-        data2.put("param#1","boolean:true");
+        data2.put("param","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "InputFunction2", data2);
-        parametrizedInputFunctionSettings1.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        parametrizedInputFunctionSettings1.addElement(element2);
 
         parametrizedInputFunctionSettings2 = new Settings();
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
-        data3.put("param#1","string:blabla");
+        data3.put("param","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "InputFunction3", data3);
-        parametrizedInputFunctionSettings2.addSettingsByTypeAndID(element3.getType(), element3.getId(), element3);
+        parametrizedInputFunctionSettings2.addElement(element3);
 
         parametrizedInputFunctionSettings3 = new Settings();
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
-        data4.put("param#1","javaFX:mouse_press");
+        data4.put("param","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "InputFunction4", data4);
-        parametrizedInputFunctionSettings3.addSettingsByTypeAndID(element4.getType(), element4.getId(), element4);
+        parametrizedInputFunctionSettings3.addElement(element4);
 
         parametrizedInputFunctionSettings4 = new Settings();
         Map<String,Object> data5 = new HashMap<>();
         data5.put("class","testcode.utils.GeneratorUtilsTestClass");
         data5.put("method","method5(testcode.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "InputFunction5", data5);
-        parametrizedInputFunctionSettings4.addSettingsByTypeAndID(element5.getType(), element5.getId(), element5);
+        parametrizedInputFunctionSettings4.addElement(element5);
 
         referencedInputFunctionSettings = new Settings();
-        referencedInputFunctionSettings.addSettingsByTypeAndID("inputfunction", "InputFunction6", null);
+        referencedInputFunctionSettings.addReference("inputfunction", "InputFunction6");
     }
 
     @BeforeClass
@@ -124,41 +124,41 @@ public final class WrapperGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "OutputFunction1", data1);
-        simpleOutputFunctionSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        simpleOutputFunctionSettings.addElement(element1);
 
         parametrizedOutputFunctionSettings1 = new Settings();
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
-        data2.put("param#1","boolean:true");
+        data2.put("param","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "OutputFunction2", data2);
-        parametrizedOutputFunctionSettings1.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        parametrizedOutputFunctionSettings1.addElement(element2);
 
         parametrizedOutputFunctionSettings2 = new Settings();
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
-        data3.put("param#1","string:blabla");
+        data3.put("param","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "OutputFunction3", data3);
-        parametrizedOutputFunctionSettings2.addSettingsByTypeAndID(element3.getType(), element3.getId(), element3);
+        parametrizedOutputFunctionSettings2.addElement(element3);
 
         parametrizedOutputFunctionSettings3 = new Settings();
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
-        data4.put("param#1","javaFX:mouse_press");
+        data4.put("param","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "OutputFunction4", data4);
-        parametrizedOutputFunctionSettings3.addSettingsByTypeAndID(element4.getType(), element4.getId(), element4);
+        parametrizedOutputFunctionSettings3.addElement(element4);
 
         parametrizedOutputFunctionSettings4 = new Settings();
         Map<String,Object> data5 = new HashMap<>();
         data5.put("class","testcode.utils.GeneratorUtilsTestClass");
         data5.put("method","method5(testcode.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "OutputFunction5", data5);
-        parametrizedOutputFunctionSettings4.addSettingsByTypeAndID(element5.getType(), element5.getId(), element5);
+        parametrizedOutputFunctionSettings4.addElement(element5);
 
         referencedOutputFunctionSettings = new Settings();
-        referencedOutputFunctionSettings.addSettingsByTypeAndID("inputfunction", "OutputFunction6", null);
+        referencedOutputFunctionSettings.addReference("inputfunction", "OutputFunction6");
     }
 
     @BeforeClass
@@ -170,41 +170,41 @@ public final class WrapperGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "Predicate1", data1);
-        simplePredicateSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        simplePredicateSettings.addElement(element1);
 
         parametrizedPredicateSettings1 = new Settings();
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
-        data2.put("param#1","boolean:true");
+        data2.put("param","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "Predicate2", data2);
-        parametrizedPredicateSettings1.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        parametrizedPredicateSettings1.addElement(element2);
 
         parametrizedPredicateSettings2 = new Settings();
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
-        data3.put("param#1","string:blabla");
+        data3.put("param","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "Predicate3", data3);
-        parametrizedPredicateSettings2.addSettingsByTypeAndID(element3.getType(), element3.getId(), element3);
+        parametrizedPredicateSettings2.addElement(element3);
 
         parametrizedPredicateSettings3 = new Settings();
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
-        data4.put("param#1","javaFX:mouse_press");
+        data4.put("param","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "Predicate4", data4);
-        parametrizedPredicateSettings3.addSettingsByTypeAndID(element4.getType(), element4.getId(), element4);
+        parametrizedPredicateSettings3.addElement(element4);
 
         parametrizedPredicateSettings4 = new Settings();
         Map<String,Object> data5 = new HashMap<>();
         data5.put("class","testcode.utils.GeneratorUtilsTestClass");
         data5.put("method","method5(testcode.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "Predicate5", data5);
-        parametrizedPredicateSettings4.addSettingsByTypeAndID(element5.getType(), element5.getId(), element5);
+        parametrizedPredicateSettings4.addElement(element5);
 
         referencedPredicateSettings = new Settings();
-        referencedPredicateSettings.addSettingsByTypeAndID("inputfunction", "Predicate6", null);
+        referencedPredicateSettings.addReference("inputfunction", "Predicate6");
     }
 
     @BeforeClass
@@ -216,17 +216,17 @@ public final class WrapperGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("field","fieldX");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "ParameterGenerator1", data1);
-        fieldParameterGeneratorSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        fieldParameterGeneratorSettings.addElement(element1);
 
         methodParameterGeneratorSettings = new Settings();
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method1()");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "ParameterGenerator2", data2);
-        methodParameterGeneratorSettings.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        methodParameterGeneratorSettings.addElement(element2);
 
         referencedParameterGeneratorSettings = new Settings();
-        referencedParameterGeneratorSettings.addSettingsByTypeAndID("parametergenerator", "ParameterGenerator2", null);
+        referencedParameterGeneratorSettings.addReference("parametergenerator", "ParameterGenerator2");
     }
 
     /// Testing Input Functions ///
@@ -319,7 +319,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void OutputFunctionWithPrimitiveParameter(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedOutputFunctionSettings1);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -331,7 +330,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void OutputFunctionWithStringParameter(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedOutputFunctionSettings2);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -343,7 +341,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void OutputFunctionWithJavaFXParameterGenerator(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedOutputFunctionSettings3);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -355,7 +352,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void OutputFunctionWithMissingParameter(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedOutputFunctionSettings4);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -367,7 +363,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void OutputFunctionReferenceOnly(){
         ComponentGenerator generator = new AdapterGenerator(referencedOutputFunctionSettings);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -381,7 +376,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void basicPredicateTest(){
         ComponentGenerator generator = new AdapterGenerator(simplePredicateSettings);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -393,7 +387,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void PredicateWithPrimitiveParameter(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedPredicateSettings1);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -405,7 +398,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void PredicateWithStringParameter(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedPredicateSettings2);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -417,7 +409,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void PredicateWithJavaFXParameterGenerator(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedPredicateSettings3);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -429,7 +420,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void PredicateWithMissingParameter(){
         ComponentGenerator generator = new AdapterGenerator(parametrizedPredicateSettings4);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();
@@ -441,7 +431,6 @@ public final class WrapperGeneratorTests {
     @Test
     public void PredicateReferenceOnly(){
         ComponentGenerator generator = new AdapterGenerator(referencedPredicateSettings);
-        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();

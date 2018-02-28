@@ -15,6 +15,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.BiFunction;
 
+import static java.lang.Thread.sleep;
+
 
 public class FileGenerator {
     
@@ -28,6 +30,7 @@ public class FileGenerator {
         document.setName(documentName);
         root = document.addElement(rootName);
         transformations = new ArrayList<>();
+        this.settings = new Settings();
     }
 
     public List<BiFunction<Settings, Element, Element>> getTransformations() {

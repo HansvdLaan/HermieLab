@@ -14,14 +14,14 @@ public class ParameterGeneratorTransformer {
 
     private Map<String, Map<String, Object>> generalParameterGenerators = new HashMap<>();
 
-    public static Map<String, Object> getData(String id) {
+    public static Map<String, Object> getMethodData(String id) {
         return getInstance().generalParameterGenerators.get(id);
     }
 
     public static ExecutableElement getMethod(String id) throws ClassNotFoundException, NoSuchMethodException {
         Map<String, Object> data = getInstance().generalParameterGenerators.get(id);
         if (data == null) {
-            data = getData(id);
+            data = getMethodData(id);
         }
         TypeElement clazz = ClassUtils.getClass((String) data.get("class"));
         return ClassUtils.getMethod(clazz, data.get("method").toString());

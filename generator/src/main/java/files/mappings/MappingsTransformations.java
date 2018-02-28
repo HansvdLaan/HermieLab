@@ -14,9 +14,9 @@ public class MappingsTransformations {
         for (String id : elementMap.keySet()) {
             Element abstractSymbolElem = root.addElement("abstractsymbol");
             GeneratorInformationElement element = elementMap.get(id);
-            abstractSymbolElem.addElement("ai").addText(element.getId());
-            abstractSymbolElem.addElement("ci").addText(element.getData().get("input").toString());
-            abstractSymbolElem.addElement("co").addText(element.getData().get("output").toString());
+            abstractSymbolElem.addElement("ai").addText(element.getID());
+            abstractSymbolElem.addElement("ci").addText(element.getAttribute("input").get(0).toString());
+            abstractSymbolElem.addElement("co").addText(element.getAttribute("output").get(0).toString());
             abstractSymbolElem.addElement("ao").addText("null");
         }
         return root;

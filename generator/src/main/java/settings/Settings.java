@@ -2,15 +2,23 @@ package settings;
 
 import settings.containers.GeneratorInformationElement;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class Settings {
 
-    private Map<String,Map<String,GeneratorInformationElement>> internalMap;
+    private Map<String,Map<String,GeneratorInformationElement>> internalMap; //Type,ID,Element
 
     public Settings(){
         internalMap = new HashMap<>();
+    }
+
+    public Settings(GeneratorInformationElement... elements){
+        this(Arrays.asList(elements));
+    }
+
+    public Settings(Collection<GeneratorInformationElement> elements){
+        this();
+        addElements(elements);
     }
 
     public Map<String,Map<String,GeneratorInformationElement>> getAllSettings(){
@@ -22,16 +30,27 @@ public class Settings {
     }
 
     public Map<String,GeneratorInformationElement> getSettingsByType(String type) {
+        if (internalMap.get(type) == null) {
+            return new HashMap<>();
+        } else {
+            return internalMap.get(type);
+        }
+    }
+
+    public void addElement(GeneratorInformationElement element){
+        internalMap.putIfAbsent(element.getType(), new HashMap<>());
+        internalMap.get(element.getType()).put(element.getID(), element);
+    }
+
+    public void addReference(String type, String ID){
         internalMap.putIfAbsent(type, new HashMap<>());
-        return internalMap.get(type);
+        internalMap.get(type).put(ID, null);
     }
 
-    public void setSettingsByType(String type, Map<String,GeneratorInformationElement> settings){
-        internalMap.put(type, settings);
-    }
-
-    public void addSettingsByType(String type, Map<String,GeneratorInformationElement> settings){
-        getSettingsByType(type).putAll(settings);
+    public void addElements(Collection<GeneratorInformationElement> elements){
+        for (GeneratorInformationElement element: elements){
+            addElement(element);
+        }
     }
 
     public GeneratorInformationElement getSettingsByTypeAndID(String type, String id){
@@ -39,12 +58,22 @@ public class Settings {
         return getSettingsByType(type).get(id);
     }
 
-    public void setSettingsByTypeAndID(String type, String id, GeneratorInformationElement settings){
-        getSettingsByType(type).put(id, settings);
+    public boolean containsElement(GeneratorInformationElement element) {
+        if (internalMap.keySet().contains(element.getType()) &&
+                internalMap.get(element.getType()).keySet().contains(element.getID())) {
+            return Objects.equals(element, getSettingsByTypeAndID(element.getType(), element.getID()));
+        } else {
+            return false;
+        }
     }
 
-    public void addSettingsByTypeAndID(String type, String id, GeneratorInformationElement settings){
-        getSettingsByType(type).put(id, settings);
+    public boolean containsReference(String type, String ID) {
+        if (internalMap.keySet().contains(type) &&
+                internalMap.get(type).keySet().contains(ID)) {
+            return internalMap.get(type).get(ID) == null;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -60,5 +89,13 @@ public class Settings {
     @Override
     public int hashCode() {
         return internalMap != null ? internalMap.hashCode() : 0;
+    }
+
+    public int size(){
+        int size = 0;
+        for (String key: getAllSettings().keySet()){
+            size += getAllSettings().get(key).keySet().size();
+        }
+        return size;
     }
 }

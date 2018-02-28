@@ -1,5 +1,7 @@
 package settings;
 
+import settings.transformations.TransformationResult;
+
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -8,7 +10,7 @@ public class SettingsPreProcessor {
     private List<BiFunction<
             Settings, //the original settings
             Settings, //the preprocessed settings upon that point
-            Settings> //the preprocessed settings after the transformation
+            TransformationResult> //the preprocessed settings after the transformation
             > transformations;
     private Settings init;
     private Settings settings;
@@ -19,25 +21,27 @@ public class SettingsPreProcessor {
         this.settings = new Settings();
     }
 
-    public List<BiFunction<Settings,Settings,Settings>> getTransformations() {
+    public List<BiFunction<Settings,Settings,TransformationResult>> getTransformations() {
         return transformations;
     }
 
-    public void setTransformations(List<BiFunction<Settings,Settings,Settings>> transformations) {
+    public void setTransformations(List<BiFunction<Settings,Settings,TransformationResult>> transformations) {
         this.transformations = transformations;
     }
 
-    public void addTransformation(BiFunction<Settings,Settings,Settings> transformation){
+    public void addTransformation(BiFunction<Settings,Settings,TransformationResult> transformation){
         this.transformations.add(transformation);
     }
 
-    public void addAllTransformations(Collection<BiFunction<Settings,Settings,Settings>> transformations){
+    public void addAllTransformations(Collection<BiFunction<Settings,Settings,TransformationResult>> transformations){
         this.transformations.addAll(transformations);
     }
 
     public void applyTransformations(){
-        for (BiFunction<Settings, Settings, Settings> function: transformations){
-            function.apply(init, settings);
+        TransformationResult result;
+        for (BiFunction<Settings, Settings, TransformationResult> function: transformations){
+            result = function.apply(init, settings);
+            //TODO: Logging of results
         }
     }
 

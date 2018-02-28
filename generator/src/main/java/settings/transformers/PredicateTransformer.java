@@ -13,12 +13,17 @@ public class PredicateTransformer {
 
     private Map<String,Map<String,Object>> generalPredicates = new HashMap<>();
 
-    public static Map<String, Object> getData(String id){
-        return getInstance().generalPredicates.get(id);
+    public static Map<String, Object> getMethodData(String id){
+        Map<String, Object> methodData = getInstance().generalPredicates.get(id);
+        if (methodData == null){
+            throw new IllegalArgumentException("unkown library method: " + id);
+        } else {
+            return getInstance().generalPredicates.get(id);
+        }
     }
 
     public static ExecutableElement getMethod(String id) throws ClassNotFoundException, NoSuchMethodException {
-        Map<String,Object> data = getData(id);
+        Map<String,Object> data = getMethodData(id);
         TypeElement clazz = ClassUtils.getClass(data.get("class").toString());
         return ClassUtils.getMethod(clazz,data.get("method").toString());
     }

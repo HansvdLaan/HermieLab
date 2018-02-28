@@ -14,7 +14,6 @@ import settings.containers.GeneratorInformationElement;
 import utils.ClassUtils;
 import utils.DummyPreProcessor;
 
-import javax.tools.JavaFileObject;
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -59,36 +58,36 @@ public final class AggregatorGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "InputFunction1", data1);
-        inputFunctionSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        inputFunctionSettings.addElement(element1);
 
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
         data2.put("param#1","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "InputFunction2", data2);
-        inputFunctionSettings.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        inputFunctionSettings.addElement(element2);
 
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
         data3.put("param#1","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "InputFunction3", data3);
-        inputFunctionSettings.addSettingsByTypeAndID(element3.getType(), element3.getId(), element3);
+        inputFunctionSettings.addElement(element3);
 
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
         data4.put("param#1","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "InputFunction4", data4);
-        inputFunctionSettings.addSettingsByTypeAndID(element4.getType(), element4.getId(), element4);
+        inputFunctionSettings.addElement(element4);
 
         Map<String,Object> data5 = new HashMap<>();
         data5.put("class","testcode.utils.GeneratorUtilsTestClass");
         data5.put("method","method5(testcode.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "InputFunction5", data5);
-        inputFunctionSettings.addSettingsByTypeAndID(element5.getType(), element5.getId(), element5);
+        inputFunctionSettings.addElement(element5);
 
-        inputFunctionSettings.addSettingsByTypeAndID("inputfunction", "InputFunction6", null);
+        inputFunctionSettings.addReference("inputfunction", "InputFunction6");
     }
 
     @BeforeClass
@@ -100,36 +99,36 @@ public final class AggregatorGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "OutputFunction1", data1);
-        outputFunctionSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        outputFunctionSettings.addElement(element1);
 
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
         data2.put("param#1","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "OutputFunction2", data2);
-        outputFunctionSettings.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        outputFunctionSettings.addElement(element2);
 
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
         data3.put("param#1","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "OutputFunction3", data3);
-        outputFunctionSettings.addSettingsByTypeAndID(element3.getType(), element3.getId(), element3);
+        outputFunctionSettings.addElement(element3);
 
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
         data4.put("param#1","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "OutputFunction4", data4);
-        outputFunctionSettings.addSettingsByTypeAndID(element4.getType(), element4.getId(), element4);
+        outputFunctionSettings.addElement(element4);
 
         Map<String,Object> data5 = new HashMap<>();
         data5.put("class","testcode.utils.GeneratorUtilsTestClass");
         data5.put("method","method5(testcode.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "OutputFunction5", data5);
-        outputFunctionSettings.addSettingsByTypeAndID(element5.getType(), element5.getId(), element5);
+        outputFunctionSettings.addElement(element5);
 
-        outputFunctionSettings.addSettingsByTypeAndID("inputfunction", "OutputFunction6", null);
+        outputFunctionSettings.addReference("inputfunction", "OutputFunction6");
     }
 
     @BeforeClass
@@ -141,36 +140,36 @@ public final class AggregatorGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "Predicate1", data1);
-        predicateSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        predicateSettings.addElement(element1);
 
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
         data2.put("param#1","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "Predicate2", data2);
-        predicateSettings.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        predicateSettings.addElement(element2);
 
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
         data3.put("param#1","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "Predicate3", data3);
-        predicateSettings.addSettingsByTypeAndID(element3.getType(), element3.getId(), element3);
+        predicateSettings.addElement(element3);
 
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
         data4.put("param#1","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "Predicate4", data4);
-        predicateSettings.addSettingsByTypeAndID(element4.getType(), element4.getId(), element4);
+        predicateSettings.addElement(element4);
 
         Map<String,Object> data5 = new HashMap<>();
         data5.put("class","testcode.utils.GeneratorUtilsTestClass");
         data5.put("method","method5(testcode.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "Predicate5", data5);
-        predicateSettings.addSettingsByTypeAndID(element5.getType(), element5.getId(), element5);
+        predicateSettings.addElement(element5);
 
-        predicateSettings.addSettingsByTypeAndID("inputfunction", "Predicate6", null);
+        predicateSettings.addReference("inputfunction", "Predicate6");
     }
 
     @BeforeClass
@@ -182,15 +181,15 @@ public final class AggregatorGeneratorTests {
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
         data1.put("field","fieldX");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "ParameterGenerator1", data1);
-        parameterGeneratorSettings.addSettingsByTypeAndID(element1.getType(), element1.getId(), element1);
+        parameterGeneratorSettings.addElement(element1);
 
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method1()");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "ParameterGenerator2", data2);
-        parameterGeneratorSettings.addSettingsByTypeAndID(element2.getType(), element2.getId(), element2);
+        parameterGeneratorSettings.addElement(element2);
 
-        parameterGeneratorSettings.addSettingsByTypeAndID("parametergenerator", "ParameterGenerator2", null);
+        parameterGeneratorSettings.addReference("parametergenerator", "ParameterGenerator2");
     }
 
     /// Testing Input Functions ///

@@ -16,7 +16,7 @@ public class ExperimentTransformations {
             Element experimentElem = root.addElement("experiment");
             GeneratorInformationElement startElem = startElemMap.get(startID);
             experimentElem.addElement("id").addText("experiment" + counter);
-            experimentElem.addElement("automaton").addText(startElem.getData().get("automaton").toString());
+            experimentElem.addElement("automaton").addText(startElem.getAttribute("automaton").get(0).toString());
             experimentElem.addElement("membershiporacle").addText("TBD");
             experimentElem.addElement("equivilanceoracle").addText("TBD");
 
@@ -24,8 +24,8 @@ public class ExperimentTransformations {
             Map<String, GeneratorInformationElement> symbolElemMap = settings.getSettingsByType("abstractsymbol");
             for (String symbolID: symbolElemMap.keySet()){
                 GeneratorInformationElement symbolElem = symbolElemMap.get(symbolID);
-                if (symbolElem.getDataSubset("experiment(#(.*))?").size() > 0) {
-                    if (symbolElem.getDataSubset("experiment(#(.*))?").values().stream().anyMatch(v -> v.equals(startID))) {
+                if (symbolElem.getAttributeSubset("experiment(#(.*))?").size() > 0) {
+                    if (symbolElem.getAttributeSubset("experiment(#(.*))?").values().stream().anyMatch(v -> v.equals(startID))) {
                         alphabet.addElement("symbol").addText(symbolID);
                     }
                 } else {

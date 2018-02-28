@@ -17,7 +17,7 @@ public class CheckerTransformations {
         Map<String, GeneratorInformationElement> elementMap = settings.getSettingsByType("inputfunction");
         for (String id : elementMap.keySet()) {
             GeneratorInformationElement element = elementMap.get(id);
-            Map<String, Object> nfaPredicates = element.getDataSubset("nfapredicate(#[0-9]*)?");
+            Map<String, Object> nfaPredicates = element.getAttributeSubset("nfapredicate(#[0-9]*)?");
             nfaPredicates.values().stream().forEach(predicate -> {
                 String[] parsedPredicate = parseNFAPredicate((String) predicate); //NFANAME#FILENAME[ORIGINALEDGE]#GROUPID#INTERGRATIONPREDICATES#DESINTERGRATIONPREDICATES
                 String nfaName = parsedPredicate[0];
@@ -83,7 +83,7 @@ public class CheckerTransformations {
         Map<String, GeneratorInformationElement> elementMap = settings.getSettingsByType("inputfunction");
         for (String id : elementMap.keySet()) {
             GeneratorInformationElement element = elementMap.get(id);
-            predicates.put(id,element.getDataSubset("predicate(#[0-9]*)?").values()
+            predicates.put(id,element.getAttributeSubset("predicate(#[0-9]*)?").values()
                     .stream().map(v -> v.toString()).collect(Collectors.toList()));
         }
 

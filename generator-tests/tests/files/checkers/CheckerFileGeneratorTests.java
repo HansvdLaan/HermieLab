@@ -39,7 +39,7 @@ public final class CheckerFileGeneratorTests {
         params1.put("type",type);
         params1.put("class","GamceController");
         params1.put("param#0","Bool:False");
-        settings.addSettingsByTypeAndID(type,ID1,new GeneratorInformationElement(type,ID1,params1));
+        settings.addElement(new GeneratorInformationElement(type,ID1,params1));
 
         Map<String, Object> params2 = new HashMap<>();
         params2.put("output","output");
@@ -51,7 +51,7 @@ public final class CheckerFileGeneratorTests {
         params2.put("type",type);
         params2.put("class","GamceController");
         params2.put("param#0","Bool:False");
-        settings.addSettingsByTypeAndID(type,ID2,new GeneratorInformationElement(type,ID2,params2));
+        settings.addElement(new GeneratorInformationElement(type,ID2,params2));
 
         Map<String, Object> params3 = new HashMap<>();
         params3.put("output","output");
@@ -63,7 +63,7 @@ public final class CheckerFileGeneratorTests {
         params3.put("type",type);
         params3.put("class","GamceController");
         params3.put("param#0","Bool:False");
-        settings.addSettingsByTypeAndID(type,ID3,new GeneratorInformationElement(type,ID3,params3));
+        settings.addElement(new GeneratorInformationElement(type,ID3,params3));
     }
 
     @Test

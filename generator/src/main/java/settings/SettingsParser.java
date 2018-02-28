@@ -35,7 +35,7 @@ public class SettingsParser {
         for (Node node : classNodes) {
             GeneratorInformationElement element = parser.parse(node);
             settings.getAllSettings().putIfAbsent(element.getType(), new HashMap<>());
-            settings.addSettingsByTypeAndID(element.getType(), element.getId(), element);
+            settings.addElement(element);
         }
         return settings;
     }
@@ -47,8 +47,9 @@ public class SettingsParser {
                     Integer.MAX_VALUE,
                     (path, basicFileAttributes) -> path.toFile().getName().matches("settings[0-9]*.xml")
             ).collect(Collectors.toList());
+            System.out.println("FOUND PATHS " + paths.toString());
             for (Path path : paths) {
-                settingsDocuments.add(toDocument(path.toFile()));
+                settingsDocuments.add(toDocument(new File(path.toFile().getAbsolutePath())));
             }
         } catch (IOException | DocumentException e) {
             e.printStackTrace();

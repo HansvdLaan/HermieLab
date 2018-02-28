@@ -33,21 +33,21 @@ public final class MappingsFileGeneratorTests {
         params1.put("input","buttonRocket1Press");
         params1.put("id",ID1);
         params1.put("type",type);
-        settings.addSettingsByTypeAndID(type,ID1,new GeneratorInformationElement(type,ID1,params1));
+        settings.addElement(new GeneratorInformationElement(type,ID1,params1));
 
         Map<String, Object> params2 = new HashMap<>();
         params2.put("output","output1");
         params2.put("input","buttonRocket1Release");
         params2.put("id",ID2);
         params2.put("type",type);
-        settings.addSettingsByTypeAndID(type,ID2,new GeneratorInformationElement(type,ID2,params2));
+        settings.addElement(new GeneratorInformationElement(type,ID2,params2));
 
         Map<String, Object> params3 = new HashMap<>();
         params3.put("output","output1");
         params3.put("input","buttonRocket1Drag");
         params3.put("id",ID3);
         params3.put("type",type);
-        settings.addSettingsByTypeAndID(type,ID3,new GeneratorInformationElement(type,ID3,params3));
+        settings.addElement(new GeneratorInformationElement(type,ID3,params3));
     }
 
     @Test
