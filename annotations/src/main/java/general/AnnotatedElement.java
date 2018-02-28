@@ -1,3 +1,5 @@
+package general;
+
 import javax.lang.model.element.Element;
 import java.util.Map;
 
@@ -101,7 +103,7 @@ public class AnnotatedElement implements Comparable{
                 return 0;
             }
         } else {
-            throw new IllegalArgumentException("parameter should be instance of AnnotatedElement");
+            throw new IllegalArgumentException("parameter should be instance of general.AnnotatedElement");
         }
     }
 }

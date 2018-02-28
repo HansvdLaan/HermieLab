@@ -1,3 +1,5 @@
+package general;
+
 import annotations.abstraction.FieldMethodSymbol;
 import annotations.abstraction.FunctionSymbol;
 import annotations.abstraction.WidgetSymbol;
@@ -42,32 +44,37 @@ import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.TypeElement;
+import javax.tools.Diagnostic;
+
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.io.XMLWriter;
 
-/**
- * Created by Hans on 27-12-2017.
- */
-
-@SupportedAnnotationTypes("annotations.Start")
+@SupportedAnnotationTypes("annotations.setup.Start")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
-public class GeneratorSetupSettingsProcessor extends AbstractProcessor {
+public class AnnotationsProcessor extends AbstractProcessor {
 
     //public static final String STARTFUNCTION = "annotations.Start";
-    public static int counter = 0;
     private static List<String> generalSettings = Arrays.asList("id","order","experiment","automaton","empty","ignore",
             "input","event(#[0-9]*)?","output(#[0-9]*)?","transform","param#[0-9]+","predicate(#[0-9]*)?","predicate#nfa(#[0-9]*)?","predicate#nfa#settings(#[0-9]*)?","class","field","method(#[0-9]*)?");
+    private boolean initialProcessingDone;
 
   @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
+        initialProcessingDone = false;
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Annotation Processor instantiated");
     }
 
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
+        processingEnv.getMessager().printMessage(Diagnostic.Kind.NOTE, "Annotation Processor processsing started");
+
+        if (initialProcessingDone){
+            return initialProcessingDone;
+        }
         // root elements
         Document document = DocumentHelper.createDocument();
         document.setName("annotation-settings");
@@ -118,7 +125,7 @@ public class GeneratorSetupSettingsProcessor extends AbstractProcessor {
         writeElementsToXML(root, inputFieldMethods, InputFieldMethod.class);
         writeElementsToXML(root, outputFieldMethods, OutputFieldMethod.class);
 
-//        Map<Class,List<AnnotatedElement>> annotatedElementMap = generateElements(FunctionSymbol.class, roundEnv);
+//        Map<Class,List<general.AnnotatedElement>> annotatedElementMap = generateElements(FunctionSymbol.class, roundEnv);
 //        if (annotatedElementMap.get(InputFunction.class) != null) {
 //            inputFunctions.addAll(annotatedElementMap.get(InputFunction.class));
 //        }
@@ -145,8 +152,7 @@ public class GeneratorSetupSettingsProcessor extends AbstractProcessor {
 
 
         // Pretty print the document to a file
-        File file = new File("settings" + String.valueOf(counter) + ".xml");
-        counter++;
+        File file = new File("settings.xml");
         org.dom4j.io.OutputFormat format = org.dom4j.io.OutputFormat.createPrettyPrint();
         XMLWriter writer;
         try {
@@ -159,7 +165,8 @@ public class GeneratorSetupSettingsProcessor extends AbstractProcessor {
             e.printStackTrace();
         }
 
-        return true;
+        initialProcessingDone = true;
+        return initialProcessingDone;
     }
 
     public List<AnnotatedElement> getUnorderedElements(Class annotationType, RoundEnvironment environment) {
