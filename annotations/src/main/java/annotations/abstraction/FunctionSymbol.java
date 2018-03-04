@@ -12,5 +12,5 @@ public @interface FunctionSymbol {
     String inputSymbolID();
     String inputFunctionID();
     String outputFunctionID();
-    String[] params();
+    String[] params() default {""};
 }

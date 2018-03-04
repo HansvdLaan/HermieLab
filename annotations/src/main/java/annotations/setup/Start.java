@@ -7,5 +7,5 @@ import java.lang.annotation.Target;
 public @interface Start {
     //String experimentid();
     String automaton();
-    String[] params();
+    String[] params() default {""};
 }

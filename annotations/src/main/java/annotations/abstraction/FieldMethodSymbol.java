@@ -12,5 +12,5 @@ public @interface FieldMethodSymbol {
     String inputFieldID();
     String[] fieldMethods();
     String[] outputFunctionIDs();
-    String[] params();
+    String[] params() default {""};
 }

@@ -106,4 +106,14 @@ public class AnnotatedElement implements Comparable{
             throw new IllegalArgumentException("parameter should be instance of general.AnnotatedElement");
         }
     }
+
+    @Override
+    public String toString() {
+        return "AnnotatedElement{" +
+                "id='" + id + '\'' +
+                ", \n element=" + element +
+                ", \nparameters=" + parameters +
+                ", \norder=" + order +
+                '}';
+    }
 }

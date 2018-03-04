@@ -11,5 +11,5 @@ import java.lang.annotation.Target;
 public @interface InputFieldMethod {
     String inputFieldID();
     String[] fieldMethods();
-    String[] params();
+    String[] params() default {""};
 }

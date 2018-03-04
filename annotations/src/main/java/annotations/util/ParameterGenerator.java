@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Repeatable(ParameterGenerators.class)
 public @interface ParameterGenerator {
     String id(); //The id of this Predicate Function
-    String[] params();
+    String[] params() default {""};
 }

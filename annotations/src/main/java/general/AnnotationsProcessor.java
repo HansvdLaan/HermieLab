@@ -92,7 +92,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
         functionSymbols.addAll(getUnorderedElements(FunctionSymbols.class, roundEnv));
 
         List<AnnotatedElement> widgetSymbols = getUnorderedElements(WidgetSymbol.class, roundEnv);
-        widgetSymbols.addAll(getUnorderedElements(WidgetSymbol.class, roundEnv));
+        widgetSymbols.addAll(getUnorderedElements(WidgetSymbols.class, roundEnv));
 
         List<AnnotatedElement> fieldMethodSymbols = getUnorderedElements(FieldMethodSymbol.class, roundEnv);
         fieldMethodSymbols.addAll(getUnorderedElements(FieldMethodSymbol.class, roundEnv));

@@ -9,5 +9,5 @@ import java.lang.annotation.Target;
 @Repeatable(Transforms.class)
 public @interface Transform {
     String id(); //The id of this Predicate Function
-    String[] params();
+    String[] params() default {""};
 }

@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Repeatable(Predicates.class)
 public @interface Predicate {
     String id(); //The id of this Predicate Function
-    String[] params();
+    String[] params() default {""};
 }

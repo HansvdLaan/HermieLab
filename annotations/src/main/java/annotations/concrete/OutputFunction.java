@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Repeatable(OutputFunctions.class)
 public @interface OutputFunction {
     String id(); //The id of this Output Function
-    String[] params();
+    String[] params() default {""};
 }

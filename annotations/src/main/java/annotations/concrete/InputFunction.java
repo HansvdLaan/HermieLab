@@ -10,5 +10,5 @@ import java.lang.annotation.Target;
 @Repeatable(InputFunctions.class)
 public @interface InputFunction {
     String id();
-    String[] params();
+    String[] params() default {""};
 }

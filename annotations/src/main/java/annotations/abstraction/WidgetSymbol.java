@@ -11,5 +11,5 @@ public @interface WidgetSymbol {
     String inputWidgetID();
     String[] events();
     String[] outputFunctionIDs();
-    String[] params();
+    String[] params() default {""};
 }

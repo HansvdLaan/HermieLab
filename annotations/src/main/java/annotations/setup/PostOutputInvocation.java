@@ -6,5 +6,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface PostOutputInvocation {
     int order(); //The order of he post output invocations
-    String[] params();
+    String[] params() default {""};
 }

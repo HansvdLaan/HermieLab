@@ -13,5 +13,5 @@ public @interface InputWidget {
     String[] events();
     //String[] outputFunctionIDs(); //TODO: when only one is given, this will count for all events!
     //String[] predicateFunctionIDs(); //The ids of the predicates which must be true before this function can be excecuted //TODO: event specific predicates?
-    String[] params();
+    String[] params() default {""};
 }
