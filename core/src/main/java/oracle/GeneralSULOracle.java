@@ -3,6 +3,7 @@ package oracle;
 import checker.Checker;
 import de.learnlib.api.Query;
 import de.learnlib.api.SUL;
+import mapper.ConcreteInvocation;
 import mapper.SULMapper;
 import net.automatalib.words.Word;
 
@@ -10,20 +11,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public abstract class GeneralSULOracle<AI,AO,CI,CO> {
+public abstract class GeneralSULOracle<AI,AO,CO> {
 
-    SUL<CI,CO> sul;
-    private final ThreadLocal<SUL<CI,CO>> localSul;
-    private SULMapper<AI, AO, CI, CO> mapper;
+    SUL<ConcreteInvocation,CO> sul;
+    private final ThreadLocal<SUL<ConcreteInvocation,CO>> localSul;
+    private SULMapper<AI, AO, ConcreteInvocation, CO> mapper;
     private List<Checker> checkers;
 
-    public GeneralSULOracle(SUL<CI,CO> sul, SULMapper mapper, List<Checker> checkers) {
+    public GeneralSULOracle(SUL<ConcreteInvocation,CO> sul, SULMapper mapper, List<Checker> checkers) {
         this.sul = sul;
         this.mapper = mapper;
         if (sul.canFork()) {
-            this.localSul = new ThreadLocal<SUL<CI,CO>>() {
+            this.localSul = new ThreadLocal<SUL<ConcreteInvocation,CO>>() {
                 @Override
-                protected SUL<CI, CO> initialValue() {
+                protected SUL<ConcreteInvocation, CO> initialValue() {
                     return sul.fork();
                 }
             };
@@ -40,7 +41,7 @@ public abstract class GeneralSULOracle<AI,AO,CI,CO> {
         }
     }
 
-    private void processQueries(SUL<CI, CO> sul, Collection collection) {
+    private void processQueries(SUL<ConcreteInvocation, CO> sul, Collection collection) {
         for (Object o : collection) {
             Query q = (Query) o;
             Object output = answerQuery(q.getPrefix(), q.getSuffix());
@@ -67,9 +68,9 @@ public abstract class GeneralSULOracle<AI,AO,CI,CO> {
         for (Checker checker : getCheckers()) {
             valid = valid && checker.checkAbstractInput(inputsymbol);
         }
-        CI concreteInput = mapper.mapInput(inputsymbol);
+        ConcreteInvocation concreteInput = mapper.mapInput(inputsymbol);
         for (Checker checker : getCheckers()) {
-            valid = valid && checker.checkConcreteInput(concreteInput);
+            valid = valid && checker.checkConcreteInput(concreteInput.getInputInstanceID());
         }
         if (valid) {
             CO concreteOutput = sul.step(concreteInput);

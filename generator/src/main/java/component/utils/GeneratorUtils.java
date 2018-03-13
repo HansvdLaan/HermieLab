@@ -1,23 +1,23 @@
 package component.utils;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.errorprone.annotations.Var;
 import com.squareup.javapoet.*;
 //
 import com.sun.tools.javac.code.Symbol;
+import settings.Settings;
 import settings.containers.GeneratorInformationElement;
 import settings.transformers.ParameterGeneratorTransformer;
 import utils.ClassUtils;
 
 import javax.lang.model.element.*;
+import javax.lang.model.type.TypeMirror;
 import java.util.*;
 
 /**
  * Created by Hans on 2-2-2018.
  */
 public class GeneratorUtils {
-
-    public static MethodSpec generateSwitchCaseAggregatorMethods(String methodName, Map<String,MethodSpec> methods, boolean isVoid, TypeName returnType){
-        return generateSwitchCaseAggregatorMethods(methodName,methods,new ArrayList<>(),isVoid, returnType);
-    }
 
     public static MethodSpec generateSwitchCaseAggregatorMethods(String methodName, Map<String,MethodSpec> methods, List<CodeBlock> exceptionalCases, boolean isVoid, TypeName returnType){
 
@@ -34,8 +34,8 @@ public class GeneratorUtils {
                         .addStatement("this.$N()", methods.get(methodID))
                         .addCode(CodeBlock.builder().unindent().build());
             } else if (methods.get(methodID).returnType.equals(TypeName.VOID)) {
-                if (returnType.box().equals(ClassName.get(Optional.class))) {
-                    builder.addCode("case \"" + methodID + "\":")
+                if (returnType.box().equals(ParameterizedTypeName.get(Optional.class,Object.class))) {
+                    builder.addCode("case \"" + methodID + "\":\n")
                             .addCode(CodeBlock.builder().indent().build())
                             .addStatement("this.$N()", methods.get(methodID))
                             .addStatement("return $T.empty()", Optional.class)
@@ -49,20 +49,25 @@ public class GeneratorUtils {
                             .addStatement("return null")
                             .addCode(CodeBlock.builder().unindent().build());
                 }
-            } else {
+            } else if (returnType.box().equals(ParameterizedTypeName.get(Optional.class,Object.class))){
                 builder.addCode("case \"" + methodID + "\":\n")
                         .addCode(CodeBlock.builder().indent().build())
                         .addStatement("return $T.of(this.$N())", Optional.class, methods.get(methodID))
                         .addCode(CodeBlock.builder().unindent().build());
+            } else {
+                builder.addCode("case \"" + methodID + "\":\n")
+                        .addCode(CodeBlock.builder().indent().build())
+                        .addStatement("return this.$N()", methods.get(methodID))
+                        .addCode(CodeBlock.builder().unindent().build());
             }
         }
         for (CodeBlock exceptionalCase: exceptionalCases){
-            builder.addCode(CodeBlock.builder().indent().build())
-                    .addCode(exceptionalCase)
-                    .addCode(CodeBlock.builder().unindent().build());
+            builder.addCode(exceptionalCase);
         }
-        builder.addCode("default:")
-                .addStatement("\nthrow new $T(\"" + methodName + ":unkown ID: \" + inputID)", IllegalArgumentException.class)
+        builder.addCode("default:\n")
+                .addCode(CodeBlock.builder().indent().build())
+                .addStatement("throw new $T(\"" + methodName + ":unkown ID:\" + ID)", IllegalArgumentException.class)
+                .addCode(CodeBlock.builder().unindent().build())
                 .endControlFlow();
         return builder.build();
 
@@ -75,7 +80,7 @@ public class GeneratorUtils {
                 .addAnnotation(Override.class)
                 .returns(Void.TYPE);
         for (String methodID: methods.keySet()) {
-            builder.addStatement("\nthis.$N()", methods.get(methodID));
+            builder.addStatement("this.$N()", methods.get(methodID));
         }
 
         return builder.build();
@@ -109,20 +114,30 @@ public class GeneratorUtils {
 
     public static MethodSpec generateWrappedMethod(GeneratorInformationElement element, boolean isVoid) throws ClassNotFoundException, NoSuchMethodException {
         TypeElement clazz;
+        Element reflectionElement; //Can be either a ExecutableElement of a VariableElement
         ExecutableElement method;
-        VariableElement field;
-        List<String> paramIDs = element.getStringAttribute("param");
+        VariableElement field = null;
+        System.out.println("--------------------------");
+        System.out.println("Wrapping" + element.toString());
+        System.out.println("--------------------------");
+        List<String> paramIDs = element.getStringAttribute("parameter");
         Object[] parameters = new Object[paramIDs.size()];
 
         String classString = element.getStringAttribute("class").get(0);
         clazz = ClassUtils.getClass(classString);
-        String methodString = element.getStringAttribute("method").get(0);
-        System.out.println("method:" + methodString);
-        if (element.getAttribute("field").size() != 0) {
-            field = ClassUtils.getField(clazz, element.getStringAttribute("field").get(0));
-            method = ClassUtils.getMethod(clazz, field, methodString);
+        if (element.getAttribute("method").size() > 0) {
+            String methodString = element.getStringAttribute("method").get(0);
+            if (element.getAttribute("field").size() != 0) {
+                field = ClassUtils.getField(clazz, element.getStringAttribute("field").get(0));
+                reflectionElement = ClassUtils.getMethod(clazz, field, methodString);
+            } else {
+                reflectionElement = ClassUtils.getMethod(clazz, methodString);
+            }
+        } else if (element.getAttribute("field").size() > 0) {
+            reflectionElement = ClassUtils.getField(clazz, element.getStringAttribute("field").get(0));
         } else {
-            method = ClassUtils.getMethod(clazz, methodString);
+            throw new IllegalArgumentException("element " + element.getType() + ":" + element.getID() +
+                    " should either contain a method or a field attribute to generate a wrapped method for it");
         }
         for (int i = 0; i < paramIDs.size(); i++) {
             String paramID = paramIDs.get(i);
@@ -131,9 +146,13 @@ public class GeneratorUtils {
                 String paramValue = paramID.split(":")[1];
                 if (ParameterGeneratorTransformer.SUPPORTEDPRIMITIVES.contains(paramType)){
                     parameters[i] = ParameterGeneratorTransformer.getValue(paramType,paramValue);
-                } else {
+                } else if (ParameterGeneratorTransformer.getMethod(paramID) != null){
                     parameters[i] = ParameterGeneratorTransformer.getMethod(paramID);
+                } else {
+                    throw new IllegalArgumentException("Unkown library and/or parameter generator " + paramID);
                 }
+            } else {
+                parameters[i] = Optional.of(paramID); //TODO: create a new wrapper specialy for this case
             }
         }
 
@@ -143,25 +162,52 @@ public class GeneratorUtils {
         if (isVoid){
             builder.returns(Void.TYPE);
         } else {
-            builder.returns(TypeName.get(method.getReturnType()));
-        }
-
-        builder.addCode("return instance.$L(",method.getSimpleName());
-        for (int i = 0; i < parameters.length; i++){
-            Object parameter = parameters[i];
-            if (ClassUtils.isWrapperType(parameter.getClass())){
-                builder.addCode("$L",parameter);
-            } else if (parameter instanceof String) {
-                builder.addCode("$S",parameter);
+            if (reflectionElement instanceof ExecutableElement) {
+                TypeMirror returnType = ((ExecutableElement) reflectionElement).getReturnType();
+                builder.returns(TypeName.get( ((ExecutableElement) reflectionElement).getReturnType()));
+            } else if (reflectionElement instanceof VariableElement) {
+                builder.returns(TypeName.get( ((VariableElement) reflectionElement).asType()));
             } else {
-                builder.addCode("$T.$L()",((Symbol.MethodSymbol) parameters[0]).owner,((Symbol.MethodSymbol) parameters[0]).name.toString());
+                throw new IllegalArgumentException("the found reflection element should either be of type ExecutableElement of VariableElement");
             }
-            if (i != parameters.length -1){
-                builder.addCode(",");
-            }
+            builder.addCode("return ");
         }
-        builder.addCode(");\n");
 
+        if (reflectionElement instanceof ExecutableElement) {
+            if (field == null) {
+                builder.addCode("(($T) instance.getClassInstance($T.class)).$L(", clazz, clazz, reflectionElement.getSimpleName());
+            } else {
+                builder.addCode("(($T) instance.getClassInstance($T.class)).$L.$L(", clazz, clazz, field, reflectionElement.getSimpleName());
+            }
+        } else if (reflectionElement instanceof VariableElement) {
+            builder.addCode("(($T) instance.getClassInstance($T.class)).$L",clazz,clazz,reflectionElement.getSimpleName());
+        }
+
+        if (reflectionElement instanceof ExecutableElement) {
+            for (int i = 0; i < parameters.length; i++) {
+                Object parameter = parameters[i];
+                if (ClassUtils.isWrapperType(parameter.getClass())) {
+                    builder.addCode("$L", parameter);
+                } else if (parameter instanceof String) {
+                    builder.addCode("$S", parameter);
+                } else if (parameter instanceof Optional) {
+                    builder.addCode("$L()", ((Optional) parameter).get());
+                } else {
+                    builder.addCode("$T.$L()", ((Symbol.MethodSymbol) parameters[0]).owner, ((Symbol.MethodSymbol) parameters[0]).name.toString());
+                }
+                if (i != parameters.length - 1) {
+                    builder.addCode(",");
+                }
+            }
+            builder.addCode(")");
+        }
+        builder.addCode(";\n");
         return builder.build();
+    }
+
+    public static ClassName getClassName(Settings settings, String className){
+        GeneratorInformationElement element = settings.getSettingsByTypeAndID("componentgenerator",className.toLowerCase());
+        String packageName = element.getStringAttribute("packageName").get(0);
+        return ClassName.get(packageName, className);
     }
 }

@@ -33,7 +33,9 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
 
     public GeneratorInformationElement(String type, String id, GeneratorInformationElement parent){
         this(type,id);
-        this.parents.add(new Pair<>(parent.getType(), parent.getID()));
+        if (parent != null) {
+            this.parents.add(new Pair<>(parent.getType(), parent.getID()));
+        }
     }
 
     public GeneratorInformationElement(String type, String id, Map<String, Object> attributes){
@@ -102,20 +104,33 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
     public List<Object> getAttribute(String type) {
         if (singleAttributes.containsKey(type)) {
             return new ArrayList<>(Arrays.asList(singleAttributes.get(type)));
-        } else if(ordenedAttributes.containsKey(type)){
-            return ordenedAttributes.get(type);
-    } else {
-        return new ArrayList<>();
+        } else if (ordenedAttributes.containsKey(type)) {
+            List<Object> safeOrdenedAttributes = new LinkedList<>(); //with null values removed
+            for (Object o : this.ordenedAttributes.get(type)) {
+                if (o != null) {
+                    safeOrdenedAttributes.add(o);
+                }
+            }
+            return safeOrdenedAttributes;
+        } else {
+            return new ArrayList<>();
+        }
     }
+
+    public boolean hasAttribute(String type) {
+        return singleAttributes.containsKey(type) || ordenedAttributes.containsKey(type);
     }
 
     public List<String> getStringAttribute(String type) {
+        System.out.println("nullCheck: " + singleAttributes ==  null || ordenedAttributes == null);
         if (singleAttributes.containsKey(type)) {
-            return new ArrayList<>(Arrays.asList(singleAttributes.get(type).toString()));
+            return new ArrayList<>(Collections.singletonList(singleAttributes.get(type).toString()));
         } else if (ordenedAttributes.containsKey(type)){
-            return ordenedAttributes.get(type)
+            System.out.println("I WAS HERE!");
+            System.out.println("ATTR:" + ordenedAttributes.get(type));
+            return getAttribute(type)
                     .stream()
-                    .map(value -> value.toString())
+                    .map(Object::toString)
                     .collect(Collectors.toList());
         } else {
             return new LinkedList<>();

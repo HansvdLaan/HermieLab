@@ -2,7 +2,6 @@ package settings.transformations;
 
 import org.dom4j.DocumentException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import settings.Settings;
 import settings.TransformationTestHelperFunctions;
@@ -206,7 +205,7 @@ public final class ConcreteElementsTransformationsTests {
                 "method","fireEvent(javafx.event.Event)",
                 "parameter","javaFX:mouse_press",
                 "predicate",Arrays.asList("predicateID1","inputWidgetID_isAccessible"),
-                "nfapredicate","inputWidgetIDNFA#widgetNFA[0]#GUI"
+                "nfapredicate","inputWidgetIDNFA#widgetNFA[PRESS]#GUI"
                 )));
         assertTrue(TransformationTestHelperFunctions.containsElements(settings, new GeneratorInformationElement("inputfieldmethod",inputWidgetDummy.getID() + "_mouse_release",
                 inputWidgetDummy,
@@ -215,7 +214,7 @@ public final class ConcreteElementsTransformationsTests {
                 "method","fireEvent(javafx.event.Event)",
                 "parameter","javaFX:mouse_release",
                 "predicate",Arrays.asList("predicateID1","inputWidgetID_isAccessible"),
-                "nfapredicate","inputWidgetIDNFA#widgetNFA[1]#GUI"
+                "nfapredicate","inputWidgetIDNFA#widgetNFA[RELEASE]#GUI"
                 )));
         assertTrue(TransformationTestHelperFunctions.containsElements(settings, new GeneratorInformationElement("inputfieldmethod",inputWidgetDummy.getID() + "_mouse_drag",
                 inputWidgetDummy,
@@ -224,7 +223,7 @@ public final class ConcreteElementsTransformationsTests {
                 "method","fireEvent(javafx.event.Event)",
                 "parameter","javaFX:mouse_drag",
                 "predicate",Arrays.asList("predicateID1","inputWidgetID_isAccessible"),
-                "nfapredicate","inputWidgetIDNFA#widgetNFA[2]#GUI"
+                "nfapredicate","inputWidgetIDNFA#widgetNFA[DRAG]#GUI"
         )));
     }
 

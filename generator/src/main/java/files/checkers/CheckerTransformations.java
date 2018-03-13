@@ -11,14 +11,112 @@ import java.util.stream.Collectors;
 public class CheckerTransformations {
 
     public static BiFunction<Settings,Element,Element> nfaCheckerTransformation = (settings, root) -> {
+        Map<String, Map<String,Map<String,String>>> NFAs = new HashMap<>();
+        Map<String, Map<String,Map<String,String>>> GUINFAs = new HashMap<>();
+
+        Map<String, GeneratorInformationElement> elementMap = settings.getSettingsByType("inputfunction");
+        for (String id : elementMap.keySet()) {
+            GeneratorInformationElement element = elementMap.get(id);
+            List<String> nfaPredicates = element.getStringAttribute("nfapredicate");
+            nfaPredicates.forEach(predicate -> {
+                String[] parsedPredicate = parseNFAPredicate((String) predicate); //NFANAME#FILENAME[ORIGINALEDGE]#GROUPID#INTERGRATIONPREDICATES#DESINTERGRATIONPREDICATES
+                String nfaName = parsedPredicate[0];
+                String fileName = parsedPredicate[1];
+                String originalEdge = parsedPredicate[2];
+                String groupID = parsedPredicate[3];
+                if (groupID.equals("GUI")) {
+
+                    GUINFAs.putIfAbsent(groupID, new HashMap<>());
+                    GUINFAs.get(groupID).putIfAbsent(nfaName, new HashMap<>());
+                    GUINFAs.get(groupID).get(nfaName).put("name", nfaName);
+                    GUINFAs.get(groupID).get(nfaName).put("file", fileName + ".jff");
+                    long transitionCount = GUINFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("transition(#[0-9]*)?")).count();
+                    GUINFAs.get(groupID).get(nfaName).put("transition#" + transitionCount + 1, originalEdge + "," + id);
+
+//                if (parsedPredicate.length > 4){
+//                    String[] intergrationPredicates = parsedPredicate[4].split(",");
+//                    long intergrationPredicateCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("intergration(#[0-9]*)?")).count();
+//                    for (String intergrationPredicate: intergrationPredicates){
+//                        if (!intergrationPredicate.equals("_")) {
+//                            NFAs.get(groupID).get(nfaName).put("intergration#" + intergrationPredicateCount + 1, intergrationPredicate);
+//                            intergrationPredicateCount++;
+//                        }
+//                    }
+//                }
+//
+//                if (parsedPredicate.length > 5){
+//                    String[] deintergrationPredicates = parsedPredicate[5].split(",");
+//                    long deintergrationPredicateCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("deintergration(#[0-9]*)?")).count();
+//                    for (String deintergrationPredicate: deintergrationPredicates){
+//                        if (!deintergrationPredicate.equals("_")) {
+//                            NFAs.get(groupID).get(nfaName).put("deintergration#" + deintergrationPredicateCount + 1, deintergrationPredicate);
+//                            deintergrationPredicateCount++;
+//                        }
+//                    }
+//                }
+                } else {
+                    NFAs.putIfAbsent(groupID, new HashMap<>());
+                    NFAs.get(groupID).putIfAbsent(nfaName, new HashMap<>());
+                    NFAs.get(groupID).get(nfaName).put("name", nfaName);
+                    NFAs.get(groupID).get(nfaName).put("file", fileName + ".jff");
+                    long transitionCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("transition(#[0-9]*)?")).count();
+                    NFAs.get(groupID).get(nfaName).put("transition#" + transitionCount + 1, originalEdge + "," + id);
+
+                }
+            });
+        }
+
+        Element guiCheckerElem = root.addElement("guichecker");
+        for (String group : GUINFAs.keySet()) {
+            Element groupElem = guiCheckerElem.addElement("group");
+            groupElem.addElement("id").addText(group);
+            for (String nfaName : GUINFAs.get(group).keySet()) {
+                Element nfaElement = groupElem.addElement("nfa");
+                nfaElement.addElement("name").addText(nfaName);
+                nfaElement.addElement("file").addText(GUINFAs.get(group).get(nfaName).get("file"));
+
+                List<String> options = Arrays.asList("transition","intergration","deintergration");
+                for (String option: options) {
+                    List<String> transitions = GUINFAs.get(group).get(nfaName).keySet().stream().filter(key -> key.matches(option + "(#[0-9]*)?")).collect(Collectors.toList());
+                    Element transitionElem = nfaElement.addElement(option + "s");
+                    for (String transition : transitions) {
+                        transitionElem.addElement(option).addText(GUINFAs.get(group).get(nfaName).get(transition));
+                    }
+                }
+            }
+        }
+
+        Element nfaCheckerElem = root.addElement("nfachecker");
+        for (String group : NFAs.keySet()) {
+            Element groupElem = nfaCheckerElem.addElement("group");
+            groupElem.addElement("id").addText(group);
+            for (String nfaName : NFAs.get(group).keySet()) {
+                Element nfaElement = groupElem.addElement("nfa");
+                nfaElement.addElement("name").addText(nfaName);
+                nfaElement.addElement("file").addText(NFAs.get(group).get(nfaName).get("file"));
+
+                List<String> options = Arrays.asList("transition","intergration","deintergration");
+                for (String option: options) {
+                    List<String> transitions = NFAs.get(group).get(nfaName).keySet().stream().filter(key -> key.matches(option + "(#[0-9]*)?")).collect(Collectors.toList());
+                    Element transitionElem = nfaElement.addElement(option + "s");
+                    for (String transition : transitions) {
+                        transitionElem.addElement(option).addText(NFAs.get(group).get(nfaName).get(transition));
+                    }
+                }
+            }
+        }
+        return root;
+    };
+
+    public static BiFunction<Settings,Element,Element> guiCheckerTransformation = (settings, root) -> {
         Element nfaCheckerElem = root.addElement("nfachecker");
         Map<String, Map<String,Map<String,String>>> NFAs = new HashMap<>();
 
         Map<String, GeneratorInformationElement> elementMap = settings.getSettingsByType("inputfunction");
         for (String id : elementMap.keySet()) {
             GeneratorInformationElement element = elementMap.get(id);
-            Map<String, Object> nfaPredicates = element.getAttributeSubset("nfapredicate(#[0-9]*)?");
-            nfaPredicates.values().stream().forEach(predicate -> {
+            List<String> nfaPredicates = element.getStringAttribute("nfapredicate");
+            nfaPredicates.forEach(predicate -> {
                 String[] parsedPredicate = parseNFAPredicate((String) predicate); //NFANAME#FILENAME[ORIGINALEDGE]#GROUPID#INTERGRATIONPREDICATES#DESINTERGRATIONPREDICATES
                 String nfaName = parsedPredicate[0];
                 String fileName = parsedPredicate[1];
@@ -31,27 +129,27 @@ public class CheckerTransformations {
                 long transitionCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("transition(#[0-9]*)?")).count();
                 NFAs.get(groupID).get(nfaName).put("transition#" + transitionCount+1, originalEdge + "," + id);
 
-                if (parsedPredicate.length > 4){
-                    String[] intergrationPredicates = parsedPredicate[4].split(",");
-                    long intergrationPredicateCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("intergration(#[0-9]*)?")).count();
-                    for (String intergrationPredicate: intergrationPredicates){
-                        if (!intergrationPredicate.equals("_")) {
-                            NFAs.get(groupID).get(nfaName).put("intergration#" + intergrationPredicateCount + 1, intergrationPredicate);
-                            intergrationPredicateCount++;
-                        }
-                    }
-                }
-
-                if (parsedPredicate.length > 5){
-                    String[] deintergrationPredicates = parsedPredicate[5].split(",");
-                    long deintergrationPredicateCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("deintergration(#[0-9]*)?")).count();
-                    for (String deintergrationPredicate: deintergrationPredicates){
-                        if (!deintergrationPredicate.equals("_")) {
-                            NFAs.get(groupID).get(nfaName).put("deintergration#" + deintergrationPredicateCount + 1, deintergrationPredicate);
-                            deintergrationPredicateCount++;
-                        }
-                    }
-                }
+//                if (parsedPredicate.length > 4){
+//                    String[] intergrationPredicates = parsedPredicate[4].split(",");
+//                    long intergrationPredicateCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("intergration(#[0-9]*)?")).count();
+//                    for (String intergrationPredicate: intergrationPredicates){
+//                        if (!intergrationPredicate.equals("_")) {
+//                            NFAs.get(groupID).get(nfaName).put("intergration#" + intergrationPredicateCount + 1, intergrationPredicate);
+//                            intergrationPredicateCount++;
+//                        }
+//                    }
+//                }
+//
+//                if (parsedPredicate.length > 5){
+//                    String[] deintergrationPredicates = parsedPredicate[5].split(",");
+//                    long deintergrationPredicateCount = NFAs.get(groupID).get(nfaName).keySet().stream().filter(key -> key.matches("deintergration(#[0-9]*)?")).count();
+//                    for (String deintergrationPredicate: deintergrationPredicates){
+//                        if (!deintergrationPredicate.equals("_")) {
+//                            NFAs.get(groupID).get(nfaName).put("deintergration#" + deintergrationPredicateCount + 1, deintergrationPredicate);
+//                            deintergrationPredicateCount++;
+//                        }
+//                    }
+//                }
             });
         }
 
@@ -101,7 +199,9 @@ public class CheckerTransformations {
     private static String[] parseNFAPredicate(String NFAPredicate){
         String[] parts = NFAPredicate.split("#");
         String[] parsedNFAPredicate = new String[parts.length+1];
-
+        if (parsedNFAPredicate.length < 4) {
+            throw new IllegalArgumentException("Incomplete NFAPredicate:" + NFAPredicate);
+        }
 
         parsedNFAPredicate[0] = parts[0];
         parsedNFAPredicate[1] = parts[1].replaceAll("\\[.*\\]","");

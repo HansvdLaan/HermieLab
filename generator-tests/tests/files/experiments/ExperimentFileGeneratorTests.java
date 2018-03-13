@@ -23,7 +23,7 @@ public final class ExperimentFileGeneratorTests {
     public static void setUp() throws NoSuchMethodException, DocumentException {
         settings = new Settings();
 
-        String type = "abstractsymbol";
+        String type = "abstractsymbolmapping";
         String ID1 = "symbol1";
         String ID2 = "symbol2";
         String ID3 = "symbol3";
@@ -32,6 +32,7 @@ public final class ExperimentFileGeneratorTests {
         params1.put("output","output1");
         params1.put("input","buttonRocket1Press");
         params1.put("id",ID1);
+        params1.put("transform","transformID");
         params1.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID1,params1));
 
@@ -39,6 +40,7 @@ public final class ExperimentFileGeneratorTests {
         params2.put("output","output1");
         params2.put("input","buttonRocket1Release");
         params2.put("id",ID2);
+        params1.put("transform","transformID");
         params2.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID2,params2));
 
@@ -46,6 +48,7 @@ public final class ExperimentFileGeneratorTests {
         params3.put("output","output1");
         params3.put("input","buttonRocket1Drag");
         params3.put("id",ID3);
+        params1.put("transform","transformID");
         params3.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID3,params3));
 

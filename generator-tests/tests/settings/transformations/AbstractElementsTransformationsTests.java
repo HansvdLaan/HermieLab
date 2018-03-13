@@ -8,7 +8,6 @@ import settings.TransformationTestHelperFunctions;
 import settings.containers.GeneratorInformationElement;
 
 import java.util.Arrays;
-import java.util.function.BiFunction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

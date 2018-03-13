@@ -91,6 +91,13 @@ public class Settings {
         return internalMap != null ? internalMap.hashCode() : 0;
     }
 
+    @Override
+    public String toString() {
+        return "Settings{" +
+                "internalMap=" + internalMap +
+                '}';
+    }
+
     public int size(){
         int size = 0;
         for (String key: getAllSettings().keySet()){

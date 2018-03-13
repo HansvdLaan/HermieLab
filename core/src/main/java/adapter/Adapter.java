@@ -18,8 +18,10 @@ public abstract class Adapter<AO, CO> {
 
     public boolean checkPredicates(List<String> predicateIDs) {
         boolean valid = true;
-        for (String predicateID: predicateIDs){
-            valid = valid && checkPredicate(predicateID);
+        if (predicateIDs != null && !predicateIDs.isEmpty()) {
+            for (String predicateID : predicateIDs) {
+                valid = valid && checkPredicate(predicateID);
+            }
         }
         return valid;
     }

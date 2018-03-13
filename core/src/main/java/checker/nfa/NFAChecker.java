@@ -119,7 +119,9 @@ public abstract class NFAChecker<AI,AO,CI,CO> implements Checker<AI,AO,CI,CO>{
     }
 
     public Set<String> getAlphabet(FiniteStateAutomaton automaton){
-        return Arrays.stream(automaton.getTransitions()).map(t -> (FSATransition) t).map(FSATransition::getLabel).collect(Collectors.toSet());
+        return Arrays.stream(automaton.getTransitions()).map(t -> (FSATransition) t).map(FSATransition::getLabel).
+                filter(string -> !string.equals("")) //lambda (empty) transitions are not part of the alphabet
+                .collect(Collectors.toSet());
     }
 
     public Set<String> getGroupedNFAsWithSymbol(String symbol) {

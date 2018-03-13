@@ -30,15 +30,15 @@ public class JavaFXPredicates {
     }
 
     public static boolean onScreen(Node node) {
-        return node.getScene() == null;
+        return node.getScene() != null;
     }
 
     public static boolean isDisabled(Node node) {
         return node.isDisabled();
     }
 
-    public static boolean isAccessbile(Node node){
-        return isVisible(node) && onScreen(node) && isDisabled(node);
+    public static boolean isAccessible(Node node){
+        return isVisible(node) && onScreen(node) && !isDisabled(node);
     }
 
     public static JavaFXPredicates getInstance() {

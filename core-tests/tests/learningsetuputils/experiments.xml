@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<experiments>
+  <experiment>
+    <id>experiment1</id>
+    <automaton>MealyMachine</automaton>
+    <membershiporacle>TBA</membershiporacle>
+    <equivilanceoracle>TBA</equivilanceoracle>
+    <alphabet>
+      <ai>buttonRocket2_Symbol2</ai>
+      <ai>permissionFalse</ai>
+      <ai>buttonRocket2_Symbol1</ai>
+      <ai>permissionTrue</ai>
+      <ai>buttonRocket1_Symbol2</ai>
+      <ai>buttonRocket1_Symbol3</ai>
+      <ai>buttonRocket2_Symbol3</ai>
+      <ai>buttonRocket1_Symbol1</ai>
+    </alphabet>
+  </experiment>
+</experiments>

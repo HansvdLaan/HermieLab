@@ -2,11 +2,16 @@ package checker;
 
 import adapter.Adapter;
 import checker.nfa.SingleNFAChecker;
+import learningsetup.LearningSetupUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -19,8 +24,9 @@ public final class SingleNFACheckerTests {
     public static CheckerSettings settings;
 
     @BeforeClass
-    public static void setUp() throws NoSuchMethodException {
-        settings = CheckerUtils.loadCheckerSettings().get(0);
+    public static void setUp() throws NoSuchMethodException, DocumentException {
+        Document checkersDocument = LearningSetupUtils.toDocument(Paths.get("tests","checker","checkers.xml").toFile());
+        settings = LearningSetupUtils.parseCheckers(checkersDocument,Paths.get("tests","checker"));
         checker = new SingleNFAChecker();
         checker.addNFAs(settings.getNFAs("nfachecker"));
     }

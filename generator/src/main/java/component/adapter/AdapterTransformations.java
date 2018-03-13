@@ -1,27 +1,31 @@
 package component.adapter;
 
-import com.squareup.javapoet.CodeBlock;
-import com.squareup.javapoet.MethodSpec;
-import com.squareup.javapoet.ParameterizedTypeName;
-import com.squareup.javapoet.TypeName;
+import com.squareup.javapoet.*;
 import component.GeneratedSpecContainer;
 import component.utils.GeneratorUtils;
+import instancemanager.InstanceManager;
 import settings.Settings;
 import settings.containers.GeneratorInformationElement;
 
+import javax.lang.model.element.Modifier;
 import java.util.*;
 import java.util.function.BiFunction;
 
 public class AdapterTransformations {
 
     public static BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer> GenerateConstructor = (generatedSpecs, settings) -> {
-        MethodSpec method = MethodSpec.constructorBuilder().build();
+        FieldSpec instanceManager =  generatedSpecs.getFieldsByTypeAndID("instance", "instancemanager");
+        MethodSpec method = MethodSpec.constructorBuilder()
+                .addParameter(InstanceManager.class, "instanceManager")
+                .addStatement("this.$N = instanceManager",instanceManager).build();
         generatedSpecs.addMethodsByTypeAndID("constructor", "constructor", method);
         return generatedSpecs;
     };
 
     public static BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer> GenerateWrappedMethods = (generatedSpecs, settings) -> {
-        List<String> types = Arrays.asList("parametergenerator", "predicate", "inputfunction", "outputfunction", "start", "initialize", "shutdown"); //TODO: add rest of functions.
+        List<String> types = Arrays.asList("parametergenerator", "predicate", "inputfunction", "outputfunction",
+                "start", "initialize", "shutdown",
+        "prequery","postquery","preinputinvocation","postinputinvocation","preoutputinvocation","postoutputinvocation");
         for (String type : types) {
             Map<String, GeneratorInformationElement> elementMap = settings.getSettingsByType(type);
             try {
@@ -35,18 +39,25 @@ public class AdapterTransformations {
     };
 
     public static BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer> GenerateSwitchCaseAggregators = (generatedSpecs, settings) -> {
-        List<String> types = Arrays.asList("predicate", "inputfunction", "outputfunction");
-        List<String> methodNames = Arrays.asList("checkPredicate", "processInput", "processOutput");
-        List<TypeName> returnTypes = Arrays.asList(ParameterizedTypeName.get(Boolean.class),
+        List<String> types = Arrays.asList("predicate", "inputfunction", "outputfunction","transform");
+        List<String> methodNames = Arrays.asList("checkPredicate", "processInput", "processOutput","transformOutput");
+        List<TypeName> returnTypes = Arrays.asList(TypeName.get(boolean.class),
                 ParameterizedTypeName.get(Optional.class,Object.class),
-                ParameterizedTypeName.get(Optional.class,Object.class));
-        List<List<CodeBlock>> exceptionalCasesList = Arrays.asList(new ArrayList(), new ArrayList<>(), Arrays.asList(generateThisExceptionalCase()));
+                ParameterizedTypeName.get(Object.class),
+                TypeName.get(Object.class));
+        List<List<CodeBlock>> exceptionalCasesList = Arrays.asList(new ArrayList(), new ArrayList<>(),
+                Arrays.asList(generateThisExceptionalCase()), Arrays.asList(generateToBooleanExceptionalCase(), generateToStringExceptionalCase()));
         for (int i = 0; i < types.size(); i++) {
             String type = types.get(i);
             String methodName = methodNames.get(i);
             TypeName returnType = returnTypes.get(i);
             List<CodeBlock> exceptionalCases = exceptionalCasesList.get(i);
             MethodSpec method = GeneratorUtils.generateSwitchCaseAggregatorMethods(methodName, generatedSpecs.getMethodsByType(type), exceptionalCases, false, returnType);
+
+            if (type.equals("transform")) {
+                method = method.toBuilder().addParameter(Object.class, "output").build();
+            }
+
             generatedSpecs.addMethodsByTypeAndID(type, method.name,method);
         }
         return generatedSpecs;
@@ -54,9 +65,9 @@ public class AdapterTransformations {
 
     public static BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer> GenerateAggregators = (generatedSpecs, settings) -> {
         List<String> types = Arrays.asList("start", "initialize", "shutdown","prequery","postquery","preinputinvocation","postinputinvocation",
-                "preoutputinvocation","postinputinvocation");
+                "preoutputinvocation","postoutputinvocation");
         List<String> methodNames = Arrays.asList("start", "initialize", "shutdown","preQuery","postQuery","preInputInvocation","postInputInvocation",
-                "preOutputInvocation","postInputInvocation");
+                "preOutputInvocation","postOutputInvocation");
         for (int i = 0; i < types.size(); i++) {
             String type = types.get(i);
             String methodName = methodNames.get(i);
@@ -66,10 +77,30 @@ public class AdapterTransformations {
         return generatedSpecs;
     };
 
+    public static BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer> GenerateInstanceMangerField = (generatedSpecs, settings) -> {
+            FieldSpec instanceMangerField = FieldSpec.builder(InstanceManager.class, "instance", Modifier.PRIVATE).build();
+            generatedSpecs.addFieldsByTypeAndID("instance", "instancemanager",instanceMangerField);
+        return generatedSpecs;
+    };
+
     private static CodeBlock generateThisExceptionalCase(){
         CodeBlock.Builder builder = CodeBlock.builder();
-        builder.add("case \"this\":")
-                .addStatement("\nreturn this.getInputCO()");
+        builder.add("case \"this\":\n")
+                .add("return Optional.of(this.getInputCO());\n");
+        return builder.build();
+    }
+
+    private static CodeBlock generateToStringExceptionalCase(){
+        CodeBlock.Builder builder = CodeBlock.builder();
+        builder.add("case \"toString\":\n")
+                .add("return output.toString();\n");
+        return builder.build();
+    }
+
+    private static CodeBlock generateToBooleanExceptionalCase(){
+        CodeBlock.Builder builder = CodeBlock.builder();
+        builder.add("case \"toBoolean\":\n")
+                .add("return (Boolean) output;\n");
         return builder.build();
     }
 }

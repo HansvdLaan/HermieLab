@@ -22,6 +22,9 @@ public class ParameterGeneratorTransformer {
         Map<String, Object> data = getInstance().generalParameterGenerators.get(id);
         if (data == null) {
             data = getMethodData(id);
+            if (data == null) {
+                throw new IllegalArgumentException("Unkown parameter generator method:" + id);
+            }
         }
         TypeElement clazz = ClassUtils.getClass((String) data.get("class"));
         return ClassUtils.getMethod(clazz, data.get("method").toString());

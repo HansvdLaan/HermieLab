@@ -2,10 +2,8 @@ package settings.transformations;
 
 import org.dom4j.DocumentException;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import settings.Settings;
-import settings.SettingsPreProcessor;
 import settings.TransformationTestHelperFunctions;
 import settings.containers.GeneratorInformationElement;
 import settings.transformations.exceptions.IncompleteElementException;

@@ -30,4 +30,20 @@ public class TestDriver {
                     "suited for the same type of automata learning scenario");
         }
     }
+
+    public MembershipOracle getMembershipOracle() {
+        return membershipOracle;
+    }
+
+    public void setMembershipOracle(MembershipOracle membershipOracle) {
+        this.membershipOracle = membershipOracle;
+    }
+
+    public EquivalenceOracle getEquivalenceOracle() {
+        return equivalenceOracle;
+    }
+
+    public void setEquivalenceOracle(EquivalenceOracle equivalenceOracle) {
+        this.equivalenceOracle = equivalenceOracle;
+    }
 }

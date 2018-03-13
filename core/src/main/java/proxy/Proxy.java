@@ -40,7 +40,7 @@ public class Proxy<CO> implements SUL<ConcreteInvocation,CO> {
             adapter.postInputInvocation();
             adapter.preOutputInvocation();
             ret = adapter.processOutput(in.getOutputInstanceID());
-            adapter.preOutputInvocation();
+            adapter.postOutputInvocation();
         }
         return ret;
     }

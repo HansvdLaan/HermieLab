@@ -3,6 +3,7 @@ package oracle;
 import checker.Checker;
 import de.learnlib.api.MembershipOracle;
 import de.learnlib.api.SUL;
+import mapper.ConcreteInvocation;
 import mapper.SULMapper;
 import net.automatalib.words.Word;
 
@@ -10,24 +11,25 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-public class DFASULOracle<AI,CI,CO> extends GeneralSULOracle<AI,Boolean,CI,CO> implements MembershipOracle.DFAMembershipOracle {
+public class DFASULOracle<AI,CI,CO> extends GeneralSULOracle<AI,Boolean,CO> implements MembershipOracle.DFAMembershipOracle {
 
     private boolean valid;
 
-    public DFASULOracle(SUL<CI,CO> sul, SULMapper mapper, List<Checker> checkers) {
+    public DFASULOracle(SUL<ConcreteInvocation,CO> sul, SULMapper mapper, List<Checker> checkers) {
        super(sul, mapper,checkers);
+
     }
 
     @Override
     public void processQueries(Collection collection) {
-
+        super.processQueries(collection);
     }
 
     @Override
     public Boolean answerQuery(Word prefix, Word suffix) {
-        sul.pre();
         valid = true;
         Boolean result = null;
+        sul.pre();
 
         try {
             // Prefix: Execute symbols, don't record output
@@ -61,10 +63,11 @@ public class DFASULOracle<AI,CI,CO> extends GeneralSULOracle<AI,Boolean,CI,CO> i
 
         } finally {
 
-            sul.post();
             for (Checker checker: getCheckers()){
                 checker.reset();
             }
+
+            sul.post();
             //return result;
 
         }
