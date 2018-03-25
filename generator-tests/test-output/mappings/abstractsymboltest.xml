@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings>
+  <mapping>
+    <ai>symbol1</ai>
+    <ci>buttonRocket1Press</ci>
+    <co>output1</co>
+    <ao>transformID</ao>
+  </mapping>
+  <mapping>
+    <ai>symbol3</ai>
+    <ci>buttonRocket1Drag</ci>
+    <co>output1</co>
+    <ao>transformID</ao>
+  </mapping>
+  <mapping>
+    <ai>symbol2</ai>
+    <ci>buttonRocket1Release</ci>
+    <co>output1</co>
+    <ao>transformID</ao>
+  </mapping>
+</mappings>

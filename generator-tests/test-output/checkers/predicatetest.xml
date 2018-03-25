@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<checkers>
+  <predicatechecker>
+    <input>
+      <id>permissionFalse</id>
+      <predicate>p1</predicate>
+    </input>
+    <input>
+      <id>permissionTrue</id>
+      <predicate>p1</predicate>
+    </input>
+    <input>
+      <id>permissionAlsoFalse</id>
+      <predicate>p1</predicate>
+    </input>
+    <input>
+      <id>inputfuntionID5</id>
+      <predicate>p1</predicate>
+    </input>
+    <input>
+      <id>inputfuntionID4</id>
+      <predicate>p1</predicate>
+    </input>
+  </predicatechecker>
+</checkers>
