@@ -51,7 +51,7 @@ public class ExampleMealyMachineLearningSetup extends LearningSetup<String,Strin
             MembershipOracle.MealyMembershipOracle mealyMembershipOracle = new MealySULOracle<String,String,String>(getProxy(), getMapper(),
                   getCheckers());
             EquivalenceOracle.MealyEquivalenceOracle mealyEquivalenceOracle = new RandomWordsEQOracle.MealyRandomWordsEQOracle(
-                    mealyMembershipOracle,1,20,1000,new Random(42)  );
+                    mealyMembershipOracle,eqOracleMinLenght,eqOracleMaxLength,eqOracleMaxTests,seed  );
 
             setTestDriver(new TestDriver(mealyMembershipOracle, mealyEquivalenceOracle));
         }
