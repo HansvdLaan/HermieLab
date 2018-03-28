@@ -3,6 +3,7 @@ package oracle;
 import checker.Checker;
 import de.learnlib.api.MembershipOracle;
 import de.learnlib.api.SUL;
+import mapper.ConcreteInvocation;
 import mapper.SULMapper;
 import net.automatalib.words.Word;
 import net.automatalib.words.WordBuilder;
@@ -10,15 +11,15 @@ import net.automatalib.words.WordBuilder;
 import java.util.List;
 import java.util.Optional;
 
-public class MealySULOracle<AI,AO,CI,CO> extends GeneralSULOracle implements MembershipOracle.MealyMembershipOracle {
+public class MealySULOracle<AI,AO,CO> extends GeneralSULOracle<AI,AO,CO> implements MembershipOracle.MealyMembershipOracle {
 
     private boolean valid;
 
-    public MealySULOracle(SUL<CI,CO> sul, SULMapper mapper, List<Checker> checkers) {
+    public MealySULOracle(SUL<ConcreteInvocation,CO> sul, SULMapper mapper, List<Checker> checkers) {
         super(sul, mapper,checkers);
     }
 
-
+    @Override
     public Object answerQuery(Word prefix, Word suffix) {
         sul.pre();
         valid = true;
