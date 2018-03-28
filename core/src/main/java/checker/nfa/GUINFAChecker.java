@@ -19,17 +19,17 @@ public class GUINFAChecker<AI,AO,CI,CO> extends NFAChecker {
 
     @Override
     public boolean checkAbstractInput(Object abstractInput) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean checkAbstractOutput(Object abstractOutput) {
-        return false;
+        return true;
     }
 
     @Override
     public boolean checkConcreteOutput(Object concreteOutput) {
-        return false;
+        return true;
     }
 
     @Override
