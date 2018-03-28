@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mappings>
+  <mapping>
+    <ai>buttonRocket2_Symbol2</ai>
+    <ci>buttonRocket2_mouse_press</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>permissionFalse</ai>
+    <ci>permissionFalse</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>buttonRocket2_Symbol1</ai>
+    <ci>buttonRocket2_mouse_drag</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>permissionTrue</ai>
+    <ci>permissionTrue</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>buttonRocket1_Symbol2</ai>
+    <ci>buttonRocket1_mouse_press</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>buttonRocket1_Symbol3</ai>
+    <ci>buttonRocket1_mouse_release</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>buttonRocket2_Symbol3</ai>
+    <ci>buttonRocket2_mouse_release</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+  <mapping>
+    <ai>buttonRocket1_Symbol1</ai>
+    <ci>buttonRocket1_mouse_drag</ci>
+    <co>output</co>
+    <ao>toString</ao>
+  </mapping>
+</mappings>
