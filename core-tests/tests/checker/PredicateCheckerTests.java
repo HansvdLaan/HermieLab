@@ -4,11 +4,16 @@ import adapter.Adapter;
 import adapter.MyAdapter;
 import checker.nfa.SingleNFAChecker;
 import checker.predicate.PredicateChecker;
+import learningsetup.LearningSetupUtils;
+import org.dom4j.Document;
+import org.dom4j.DocumentException;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import java.nio.file.Paths;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -21,9 +26,10 @@ public final class PredicateCheckerTests {
     public static CheckerSettings settings;
 
     @BeforeClass
-    public static void setUp() throws NoSuchMethodException {
+    public static void setUp() throws NoSuchMethodException, DocumentException {
         Adapter adapter = new MyAdapter();
-        settings = CheckerUtils.loadCheckerSettings().get(0);
+        Document checkersDocument = LearningSetupUtils.toDocument(Paths.get("tests","checker","checkers.xml").toFile());
+        settings = LearningSetupUtils.parseCheckers(checkersDocument,Paths.get("tests","checker"));
         checker = new PredicateChecker(adapter, settings.getAllPredicates());
     }
 

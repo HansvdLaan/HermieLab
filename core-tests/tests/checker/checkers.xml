@@ -6,7 +6,7 @@
       <id>G1</id>
       <nfa>
         <name>testNFA</name>
-        <file>C:\Users\Gebruiker\Documents\learnlib\HermieLab\core\src\main\resources\checker\nfas\basic\alternate2.jff</file>
+        <file>alternate2.jff</file>
         <transitions>
           <transition>1,CI1</transition>
           <transition>2,CI2</transition>
@@ -20,7 +20,7 @@
       <id>GUI</id>
       <nfa>
         <name>MouseEventNFAWidget1</name>
-        <file>C:\Users\Gebruiker\Documents\learnlib\HermieLab\core\src\main\resources\checker\nfas\gui\mouseevents.jff</file>
+        <file>widgetNFA.jff</file>
         <transitions>
           <transition>PRESS,P1</transition>
           <transition>RELEASE,R1</transition>
@@ -29,7 +29,7 @@
       </nfa>
       <nfa>
         <name>MouseEventNFAWidget2</name>
-        <file>C:\Users\Gebruiker\Documents\learnlib\HermieLab\core\src\main\resources\checker\nfas\gui\mouseevents.jff</file>
+        <file>widgetNFA.jff</file>
         <transitions>
           <transition>PRESS,P2</transition>
           <transition>RELEASE,R2</transition>
