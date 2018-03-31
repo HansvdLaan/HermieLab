@@ -17,19 +17,19 @@ public class ExperimentTransformations {
             GeneratorInformationElement startElem = startElemMap.get(startID);
             experimentElem.addElement("id").addText("experiment" + counter);
             experimentElem.addElement("automaton").addText(startElem.getAttribute("automaton").get(0).toString());
-            experimentElem.addElement("membershiporacle").addText("TBD");
-            experimentElem.addElement("equivilanceoracle").addText("TBD");
+            experimentElem.addElement("membershiporacle").addText("TBA");
+            experimentElem.addElement("equivilanceoracle").addText("TBA");
 
             Element alphabet = experimentElem.addElement("alphabet");
-            Map<String, GeneratorInformationElement> symbolElemMap = settings.getSettingsByType("abstractsymbol");
+            Map<String, GeneratorInformationElement> symbolElemMap = settings.getSettingsByType("abstractsymbolmapping");
             for (String symbolID: symbolElemMap.keySet()){
                 GeneratorInformationElement symbolElem = symbolElemMap.get(symbolID);
-                if (symbolElem.getAttributeSubset("experiment(#(.*))?").size() > 0) {
-                    if (symbolElem.getAttributeSubset("experiment(#(.*))?").values().stream().anyMatch(v -> v.equals(startID))) {
-                        alphabet.addElement("symbol").addText(symbolID);
+                if (symbolElem.getAttribute("experiment").size() > 0) {
+                    if (symbolElem.getStringAttribute("experiment").stream().anyMatch(v -> v.equals(startID))) {
+                        alphabet.addElement("ai").addText(symbolID);
                     }
                 } else {
-                    alphabet.addElement("symbol").addText(symbolID);
+                    alphabet.addElement("ai").addText(symbolID);
                 }
             }
             counter++;
