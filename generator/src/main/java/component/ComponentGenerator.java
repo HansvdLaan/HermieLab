@@ -1,8 +1,11 @@
 package component;
 
+import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.TypeSpec;
 import settings.Settings;
+import settings.containers.GeneratorInformationElement;
 
+import javax.lang.model.element.Modifier;
 import java.util.*;
 import java.util.function.BiFunction;
 
@@ -17,20 +20,24 @@ public class ComponentGenerator {
     private Settings settings;
 
     private String className;
+    private String packageName;
     private List<String> methodTypeOrder;
     private List<String> fieldTypeOrder;
+    private Class superClass;
+    private List<Class> interfaces;
 
-    @Deprecated
-    public ComponentGenerator(Settings settings, String className){
-        this(className);
-        this.settings = settings;
-    }
-
-    public ComponentGenerator(String className){
+    public ComponentGenerator(Settings settings, String packageName, String className){
+        interfaces = new LinkedList<>();
         transformations = new ArrayList<>();
         this.generatedSpecs = new GeneratedSpecContainer();
         this.className = className;
+        this.packageName = packageName;
         this.methodTypeOrder = new ArrayList<>();
+        this.settings = settings;
+        this.settings.addElement(new GeneratorInformationElement("componentgenerator",className.toLowerCase(),
+                null,
+                "className", className,
+                "packageName",packageName));
     }
 
     public List<BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer>> getTransformations() {
@@ -57,6 +64,7 @@ public class ComponentGenerator {
 
     public TypeSpec generateComponent() {
         TypeSpec.Builder builder = TypeSpec.classBuilder(className);
+        builder.addModifiers(Modifier.PUBLIC);
         for (String type: getFieldTypeOrder()){
             List<String> IDs = new ArrayList<>(generatedSpecs.getFieldsByType(type).keySet());
             Collections.sort(IDs);
@@ -68,7 +76,12 @@ public class ComponentGenerator {
             Collections.sort(IDs);
             IDs.forEach(id -> builder.addMethod(getGeneratedSpecs().getMethodsByTypeAndID(type,id)));
         }
-
+        if (getSuperClass() != null) {
+            builder.superclass(getSuperClass());
+        }
+        if (getInterfaces().size() > 0) {
+            getInterfaces().forEach(builder::addSuperinterface);
+        }
         return builder.build();
     }
 
@@ -111,5 +124,29 @@ public class ComponentGenerator {
 
     public void setClassName(String className) {
         this.className = className;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public Class getSuperClass() {
+        return superClass;
+    }
+
+    public void setSuperClass(Class superClass) {
+        this.superClass = superClass;
+    }
+
+    public List<Class> getInterfaces() {
+        return interfaces;
+    }
+
+    public void setInterfaces(List<Class> interfaces) {
+        this.interfaces = interfaces;
     }
 }

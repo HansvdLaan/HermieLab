@@ -13,20 +13,24 @@ import java.util.List;
 public class AdapterGenerator extends ComponentGenerator {
 
     public static String CLASSNAME = "ApplicationAdapter";
-    public static List<String> METHODTYPEORDER = Arrays.asList("constructor","parametergenerator","predicate","inputfunction","outputfunction");
-    public static List<String> FIELDTYPEORDER = Arrays.asList("");
+    public static String PACKAGENAME = "hermielab";
+    public static List<String> METHODTYPEORDER = Arrays.asList("constructor","parametergenerator","predicate","inputfunction","outputfunction",
+            "start", "initialize", "shutdown",
+            "prequery","postquery",
+            "preinputinvocation","postinputinvocation",
+            "preoutputinvocation","postoutputinvocation","transform");
+    public static List<String> FIELDTYPEORDER = Arrays.asList("instance");
 
     public AdapterGenerator(Settings settings){
-        this();
-        setSettings(settings);
-    }
-    public AdapterGenerator() {
-        super(CLASSNAME);
+        super(settings, PACKAGENAME, CLASSNAME);
         setFieldTypeOrder(FIELDTYPEORDER);
         setMethodTypeOrder(METHODTYPEORDER);
+        setSuperClass(Adapter.class);
+        this.addTransformation(AdapterTransformations.GenerateInstanceMangerField);
         this.addTransformation(AdapterTransformations.GenerateConstructor);
         this.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         this.addTransformation(AdapterTransformations.GenerateSwitchCaseAggregators);
         this.addTransformation(AdapterTransformations.GenerateAggregators);
+
     }
 }
