@@ -18,7 +18,6 @@
         <module>generator</module>
         <module>generator-tests</module>
         <module>processor</module>
-        <module>processor-tests</module>
     </modules>
 
     <build>
