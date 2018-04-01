@@ -1,10 +1,13 @@
 package testcode.utils;
 
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 
 public class GeneratorUtilsTestClass {
 
     public String field1;
+
+    public Button button1;
 
     public boolean method1(){
         return true;

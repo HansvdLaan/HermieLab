@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<experiments>
+  <experiment>
+    <id>experiment1</id>
+    <automaton>DFA</automaton>
+    <membershiporacle>TBA</membershiporacle>
+    <equivilanceoracle>TBA</equivilanceoracle>
+    <alphabet>
+      <ai>symbol1</ai>
+      <ai>symbol3</ai>
+      <ai>symbol2</ai>
+    </alphabet>
+  </experiment>
+</experiments>

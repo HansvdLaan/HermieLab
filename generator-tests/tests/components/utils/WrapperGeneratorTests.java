@@ -15,10 +15,7 @@ import utils.DummyPreProcessor;
 
 import java.net.MalformedURLException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 import static com.google.testing.compile.Compiler.javac;
 import static org.junit.Assert.assertEquals;
@@ -34,6 +31,7 @@ public final class WrapperGeneratorTests {
     public static Settings parametrizedInputFunctionSettings3; //Input function with a javaFX parameter generator
     public static Settings parametrizedInputFunctionSettings4; //Input function with no parameter while it should have a parameter
     public static Settings referencedInputFunctionSettings; //Referenced input function
+    public static Settings javaFXButtonInputFunctionSettings;
 
     public static Settings simpleOutputFunctionSettings; //Input function with no parameters
     public static Settings parametrizedOutputFunctionSettings1; //Input function with a primitive parameter
@@ -47,11 +45,14 @@ public final class WrapperGeneratorTests {
     public static Settings parametrizedPredicateSettings2; //Predicate function with a String parameter
     public static Settings parametrizedPredicateSettings3; //Predicate function with a javaFX parameter generator
     public static Settings parametrizedPredicateSettings4; //Predicate function with no parameter while it should have a parameter
-    public static Settings referencedPredicateSettings; //Referenced predicate function 
+    public static Settings referencedPredicateSettings; //Referenced predicate function
+    public static Settings javaFXPredicateSettings;
 
     public static Settings fieldParameterGeneratorSettings; //User-defined field parameter
     public static Settings methodParameterGeneratorSettings; //User-defined parameter generator
     public static Settings referencedParameterGeneratorSettings; //Referenced parameter generator
+
+
 
     @BeforeClass
     public static void setUpProcessor() throws DocumentException, MalformedURLException {
@@ -84,7 +85,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
-        data2.put("param","boolean:true");
+        data2.put("parameter","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "InputFunction2", data2);
         parametrizedInputFunctionSettings1.addElement(element2);
 
@@ -92,7 +93,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
-        data3.put("param","string:blabla");
+        data3.put("parameter","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "InputFunction3", data3);
         parametrizedInputFunctionSettings2.addElement(element3);
 
@@ -100,7 +101,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
-        data4.put("param","javaFX:mouse_press");
+        data4.put("parameter","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "InputFunction4", data4);
         parametrizedInputFunctionSettings3.addElement(element4);
 
@@ -113,6 +114,15 @@ public final class WrapperGeneratorTests {
 
         referencedInputFunctionSettings = new Settings();
         referencedInputFunctionSettings.addReference("inputfunction", "InputFunction6");
+
+        javaFXButtonInputFunctionSettings = new Settings( new GeneratorInformationElement("inputfunction", "button1_release",
+                new GeneratorInformationElement("test","test"),
+                "nfapredicate","buttonRocket1NFA#widgetNFA[2]#GUI",
+                "predicate","button1_isAccessible",
+                "field","button1",
+                "method","fireEvent(javafx.event.Event)",
+                "parameter","javaFX:mouse_release",
+                "class","testcode.utils.GeneratorUtilsTestClass"));
     }
 
     @BeforeClass
@@ -130,7 +140,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
-        data2.put("param","boolean:true");
+        data2.put("parameter","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "OutputFunction2", data2);
         parametrizedOutputFunctionSettings1.addElement(element2);
 
@@ -138,7 +148,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
-        data3.put("param","string:blabla");
+        data3.put("parameter","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "OutputFunction3", data3);
         parametrizedOutputFunctionSettings2.addElement(element3);
 
@@ -146,7 +156,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
-        data4.put("param","javaFX:mouse_press");
+        data4.put("parameter","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "OutputFunction4", data4);
         parametrizedOutputFunctionSettings3.addElement(element4);
 
@@ -176,7 +186,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data2 = new HashMap<>();
         data2.put("class","testcode.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
-        data2.put("param","boolean:true");
+        data2.put("parameter","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "Predicate2", data2);
         parametrizedPredicateSettings1.addElement(element2);
 
@@ -184,7 +194,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data3 = new HashMap<>();
         data3.put("class","testcode.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
-        data3.put("param","string:blabla");
+        data3.put("parameter","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "Predicate3", data3);
         parametrizedPredicateSettings2.addElement(element3);
 
@@ -192,7 +202,7 @@ public final class WrapperGeneratorTests {
         Map<String,Object> data4 = new HashMap<>();
         data4.put("class","testcode.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
-        data4.put("param","javaFX:mouse_press");
+        data4.put("parameter","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "Predicate4", data4);
         parametrizedPredicateSettings3.addElement(element4);
 
@@ -205,16 +215,24 @@ public final class WrapperGeneratorTests {
 
         referencedPredicateSettings = new Settings();
         referencedPredicateSettings.addReference("inputfunction", "Predicate6");
+
+        javaFXPredicateSettings = new Settings(
+                new GeneratorInformationElement("predicate","button_isAccessible",
+                        new GeneratorInformationElement("testtype","testid"),
+                        "method","isAccessible(javafx.scene.Node)",
+                        "parameter","buttonRocket_Parameter",
+                        "class","settings.JavaFXPredicates")
+        );
     }
 
     @BeforeClass
     public static void setUpParameterGeneratorSettings() {
-        String type = "predicate";
+        String type = "parametergenerator";
 
         fieldParameterGeneratorSettings = new Settings();
         Map<String,Object> data1 = new HashMap<>();
         data1.put("class","testcode.utils.GeneratorUtilsTestClass");
-        data1.put("field","fieldX");
+        data1.put("field","field1");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "ParameterGenerator1", data1);
         fieldParameterGeneratorSettings.addElement(element1);
 
@@ -294,6 +312,17 @@ public final class WrapperGeneratorTests {
     @Test
     public void InputFunctionReferenceOnly(){
         ComponentGenerator generator = new AdapterGenerator(referencedInputFunctionSettings);
+        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
+        generator.applyTransformations();
+
+        TypeSpec adapter = generator.generateComponent();
+        assertTrue(JavaPoetTestUtils.containsMethod(adapter,"inputFunction6",0));
+        JavaPoetTestUtils.isEmptyWrapperMethod(adapter, "inputFunction6");
+    }
+
+    @Test
+    public void JavaFXWidgetInputFunction(){
+        ComponentGenerator generator = new AdapterGenerator(javaFXButtonInputFunctionSettings);
         generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.applyTransformations();
 
@@ -437,17 +466,47 @@ public final class WrapperGeneratorTests {
         assertTrue(JavaPoetTestUtils.containsMethod(adapter,"predicate6",0));
         JavaPoetTestUtils.isEmptyWrapperMethod(adapter, "predicate6");
     }
+
+    @Test
+    public void PredicateFromJavaFX(){
+        ComponentGenerator generator = new AdapterGenerator(javaFXPredicateSettings);
+        generator.applyTransformations();
+
+        TypeSpec adapter = generator.generateComponent();
+        assertTrue(JavaPoetTestUtils.containsMethod(adapter,"predicate6",0));
+        JavaPoetTestUtils.isEmptyWrapperMethod(adapter, "predicate6");
+    }
     
     /// Testing Parameter Generators ///
     @Test
     public void ParameterGeneratorOfField(){
+        ComponentGenerator generator = new AdapterGenerator(fieldParameterGeneratorSettings);
+        generator.applyTransformations();
+
+        TypeSpec adapter = generator.generateComponent();
+        assertTrue(JavaPoetTestUtils.containsMethod(adapter,"parameterGenerator1",0));
+        assertTrue(JavaPoetTestUtils.isCorrectWrapperMethod(adapter, "parameterGenerator1", "field1",
+                Arrays.asList(), String.class));
     }
 
     @Test
     public void ParameterGeneratorOfMethod(){
+        ComponentGenerator generator = new AdapterGenerator(methodParameterGeneratorSettings);
+        generator.applyTransformations();
+
+        TypeSpec adapter = generator.generateComponent();
+        assertTrue(JavaPoetTestUtils.containsMethod(adapter,"parameterGenerator2",0));
+        assertTrue(JavaPoetTestUtils.isCorrectWrapperMethod(adapter, "parameterGenerator2", "method1",
+                Arrays.asList(), Boolean.class));
     }
 
     @Test
     public void ParameterGeneratorReferenceOnly(){
+        ComponentGenerator generator = new AdapterGenerator(referencedParameterGeneratorSettings);
+        generator.applyTransformations();
+
+        TypeSpec adapter = generator.generateComponent();
+        assertTrue(JavaPoetTestUtils.containsMethod(adapter,"parameterGenerator2",0));
+        JavaPoetTestUtils.isEmptyWrapperMethod(adapter, "parameterGenerator2");
     }
 }

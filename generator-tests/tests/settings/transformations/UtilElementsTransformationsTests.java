@@ -1,21 +1,11 @@
 package settings.transformations;
 
-import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.junit.BeforeClass;
-import org.junit.Rule;
 import org.junit.Test;
 import settings.Settings;
-import settings.SettingsParser;
-import settings.SettingsPreProcessor;
 import settings.TransformationTestHelperFunctions;
 import settings.containers.GeneratorInformationElement;
-import settings.transformations.exceptions.IncompleteElementException;
-
-import java.io.File;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
