@@ -155,6 +155,8 @@ public class ConcreteElementsTransformations {
         Set<GeneratorInformationElement> newElements = new HashSet<>();
         boolean isJavaFX = isJavaFXWidget(inputWidget);
         boolean isSwing = isSwingWidget(inputWidget);
+        System.out.println("INPUTWIDGET IS NULL:" + inputWidget);
+        System.out.println("EVENTS: " + inputWidget.getStringAttribute("event"));
         for (String event: inputWidget.getStringAttribute("event")) {
             GeneratorInformationElement newElement = new GeneratorInformationElement("inputfieldmethod", inputWidget.getID() + "_" + event, inputWidget,
                     inputWidget.getAttributes());

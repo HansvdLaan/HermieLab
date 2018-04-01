@@ -37,6 +37,12 @@ public class SettingsPreProcessor {
         this.transformations.addAll(transformations);
     }
 
+    public void addAllTransformations(BiFunction<Settings,Settings,TransformationResult>... transformations){
+        for (BiFunction transformation: transformations){
+            this.addTransformation(transformation);
+        }
+    }
+
     public void applyTransformations(){
         TransformationResult result;
         for (BiFunction<Settings, Settings, TransformationResult> function: transformations){

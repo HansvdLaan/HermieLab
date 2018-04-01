@@ -12,7 +12,7 @@ public class JavaFXNFAs {
     public static Map<String,String> getMappings(){
         Map<String,String> mappings = new HashMap<>();
         List<String> events = Arrays.asList("mouse_press","mouse_release","mouse_drag");
-        List<String> edgeIDs = Arrays.asList("0","1","2");
+        List<String> edgeIDs = Arrays.asList("PRESS","RELEASE","DRAG");
         for (int i = 0; i < events.size(); i++){
             mappings.put(events.get(i), edgeIDs.get(i));
         }
