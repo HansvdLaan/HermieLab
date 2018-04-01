@@ -1,4 +1,4 @@
-package processor;
+package general;
 
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
@@ -7,6 +7,8 @@ import component.GeneratedSpecContainer;
 import files.FileGenerator;
 import org.dom4j.Document;
 import org.dom4j.io.XMLWriter;
+import settings.Settings;
+import utils.ClassUtils;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.tools.Diagnostic;
@@ -14,12 +16,11 @@ import javax.tools.FileObject;
 import javax.tools.StandardLocation;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public abstract class LearningSetupGenerator {
-    
+
+    private Settings settings;
     private List<FileGenerator> fileGenerators;
     private List<Document> generatedDocuments;
     private List<ComponentGenerator> componentGenerators;
@@ -28,9 +29,12 @@ public abstract class LearningSetupGenerator {
 
     public LearningSetupGenerator(ProcessingEnvironment processingEnv){
         this.processingEnv = processingEnv;
+        ClassUtils.getInstance().setPrEnv(processingEnv);
     }
-    
-    public abstract List<FileGenerator> initializeFileGenerators();
+
+    public abstract Settings loadSettings();
+
+    public abstract List<FileGenerator> initializeFileGenerators(Settings settings);
     
     public List<Document> generateDocument(){
         List<Document> generatedDocuments = new ArrayList<>();
@@ -42,13 +46,14 @@ public abstract class LearningSetupGenerator {
     }
 
     
-    public abstract List<ComponentGenerator> initializeCompontentGenerators();
+    public abstract List<ComponentGenerator> initializeCompontentGenerators(Settings settings) ;
     
     public List<TypeSpec> generateCompontents(){
         List<TypeSpec> generatedComponents = new ArrayList<>();
         GeneratedSpecContainer generatedSpecs = new GeneratedSpecContainer();
         for (ComponentGenerator generator: componentGenerators){
             generator.setGeneratedSpecs(generatedSpecs);
+            generator.setSettings(getSettings());
             generator.applyTransformations();
             generatedSpecs = generator.getGeneratedSpecs();
             TypeSpec component = generator.generateComponent();
@@ -58,9 +63,12 @@ public abstract class LearningSetupGenerator {
     }
     
     public void generateLearningSetup(){
-        this.fileGenerators = initializeFileGenerators();
+
+        this.settings = loadSettings();
+        this.settings = processSettings(settings);
+        this.fileGenerators = initializeFileGenerators(getSettings());
         this.generatedDocuments = generateDocument();
-        this.componentGenerators = initializeCompontentGenerators();
+        this.componentGenerators = initializeCompontentGenerators(getSettings());
         this.generatedComponents = generateCompontents();
 
         for (Document document: generatedDocuments){
@@ -69,6 +77,16 @@ public abstract class LearningSetupGenerator {
         for (TypeSpec typeSpec: generatedComponents){
             writeToFile(typeSpec);
         }
+    }
+
+    protected abstract Settings processSettings(Settings settings);
+
+    public Settings getSettings() {
+        return settings;
+    }
+
+    public void setSettings(Settings settings) {
+        this.settings = settings;
     }
 
     public List<FileGenerator> getFileGenerators() {
@@ -111,7 +129,7 @@ public abstract class LearningSetupGenerator {
         JavaFile javaFile = JavaFile.builder("hermielab", typeSpec).indent("\t").build();
         String content = javaFile.toString();
         try {
-            try (Writer writer = generateResource(javaFile.packageName, javaFile.typeSpec.name).openWriter()) {
+            try (Writer writer = generateResource(javaFile.packageName, javaFile.typeSpec.name + ".java").openWriter()) {
                 writer.write(content);
             }
         } catch (IOException e) {
@@ -122,7 +140,7 @@ public abstract class LearningSetupGenerator {
     public void writeToFile(Document document) {
         org.dom4j.io.OutputFormat format = org.dom4j.io.OutputFormat.createPrettyPrint();
         try {
-            OutputStream outputStream = generateResource("hermielab", document.getName()).openOutputStream();
+            OutputStream outputStream = generateResource("hermielab", document.getName() + ".xml").openOutputStream();
             XMLWriter writer = new XMLWriter(outputStream, format);
             writer.write(document);
         } catch (IOException e) {
