@@ -117,9 +117,6 @@ public class GeneratorUtils {
         Element reflectionElement; //Can be either a ExecutableElement of a VariableElement
         ExecutableElement method;
         VariableElement field = null;
-//        System.out.println("--------------------------");
-//        System.out.println("Wrapping" + element.toString());
-//        System.out.println("--------------------------");
         List<String> paramIDs = element.getStringAttribute("parameter");
         Object[] parameters = new Object[paramIDs.size()];
 

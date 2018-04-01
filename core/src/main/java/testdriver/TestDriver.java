@@ -38,5 +38,4 @@ public class TestDriver {
     public EquivalenceOracle getEquivalenceOracle() {
         return equivalenceOracle;
     }
-    
 }
