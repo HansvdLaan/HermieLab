@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Repeatable(FunctionSymbols.class)
 public @interface FunctionSymbol {
-    String inputSymbolID();
-    String inputFunctionID();
-    String outputFunctionID();
+    String symbolID();
+    //String inputFunctionID()
+    String outputID() default "this";
     String[] params() default {""};
 }

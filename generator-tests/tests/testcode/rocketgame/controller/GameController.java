@@ -23,11 +23,11 @@ public class GameController {
     private boolean rocket2activated;
     public Circle permissionIndicator;
 
-    @WidgetSymbol(inputWidgetID = "buttonRocket1", outputFunctionIDs = {"output"}, events = {"press","release","drag"}, params = "")
-    @FieldMethodSymbol(inputFieldID = "button1RocketField",outputFunctionIDs = "output", fieldMethods = {"setVisible(bool)","setVisible(bool)"}, params = {"param#1:Bool:True","param#2:Bool:False"})
+    @WidgetSymbol(widgetID = "buttonRocket1", outputIDs = {"output"}, events = {"press","release","drag"}, params = "")
+    @FieldMethodSymbol(fieldID = "button1RocketField", outputIDs = "output", fieldMethods = {"setVisible(bool)","setVisible(bool)"}, params = {"param#1:Bool:True","param#2:Bool:False"})
     public Button buttonRocket1;
 
-    @WidgetSymbol(inputWidgetID = "buttonRocket2", outputFunctionIDs = {"output"}, events = {"press","release","drag"}, params = "")
+    @WidgetSymbol(widgetID = "buttonRocket2", outputIDs = {"output"}, events = {"press","release","drag"}, params = "")
     public Button buttonRocket2;
 
     public GameController(){
@@ -70,9 +70,9 @@ public class GameController {
         });
     }
 
-    @FunctionSymbol(inputSymbolID = "permissionTrue",inputFunctionID = "givePermission",outputFunctionID = "output",
+    @FunctionSymbol(symbolID = "permissionTrue",inputFunctionID = "givePermission",outputFunctionID = "output",
             params = {"nfapredicate:testNFA#NFARepeatSequence2[1]#G1","predicate:p1","param#1:Bool:True"})
-    @FunctionSymbol(inputSymbolID = "permissionFalse",inputFunctionID = "retractPermission",outputFunctionID = "output",
+    @FunctionSymbol(symbolID = "permissionFalse",inputFunctionID = "retractPermission",outputFunctionID = "output",
             params = {"nfapredicate:testNFA#NFARepeatSequence2[2]#G1","predicate:p1","param#1:Bool:False"})
     public void setPermission(boolean permission){
         game.setPermission(permission);

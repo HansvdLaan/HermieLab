@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Repeatable(InputFunctions.class)
 public @interface InputFunction {
-    String id();
+    String ID();
     String[] params() default {""};
 }

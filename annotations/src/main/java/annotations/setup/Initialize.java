@@ -5,6 +5,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 public @interface Initialize {
-    int order(); //The order of the initialze function invocations
+    int order() default -1;
     String[] params() default {""};
 }

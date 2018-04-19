@@ -69,7 +69,7 @@ public class CheckerTransformations {
         Element guiCheckerElem = root.addElement("guichecker");
         for (String group : GUINFAs.keySet()) {
             Element groupElem = guiCheckerElem.addElement("group");
-            groupElem.addElement("id").addText(group);
+            groupElem.addElement("ID").addText(group);
             for (String nfaName : GUINFAs.get(group).keySet()) {
                 Element nfaElement = groupElem.addElement("nfa");
                 nfaElement.addElement("name").addText(nfaName);
@@ -89,7 +89,7 @@ public class CheckerTransformations {
         Element nfaCheckerElem = root.addElement("nfachecker");
         for (String group : NFAs.keySet()) {
             Element groupElem = nfaCheckerElem.addElement("group");
-            groupElem.addElement("id").addText(group);
+            groupElem.addElement("ID").addText(group);
             for (String nfaName : NFAs.get(group).keySet()) {
                 Element nfaElement = groupElem.addElement("nfa");
                 nfaElement.addElement("name").addText(nfaName);
@@ -155,7 +155,7 @@ public class CheckerTransformations {
 
         for (String group : NFAs.keySet()) {
             Element groupElem = nfaCheckerElem.addElement("group");
-            groupElem.addElement("id").addText(group);
+            groupElem.addElement("ID").addText(group);
             for (String nfaName : NFAs.get(group).keySet()) {
                 Element nfaElement = groupElem.addElement("nfa");
                 nfaElement.addElement("name").addText(nfaName);
@@ -187,7 +187,7 @@ public class CheckerTransformations {
 
         for (String inputID : predicates.keySet()) {
             Element inputElem = nfaCheckerElem.addElement("input");
-            inputElem.addElement("id").addText(inputID);
+            inputElem.addElement("ID").addText(inputID);
             for (String predicate : predicates.get(inputID)) {
                 inputElem.addElement("predicate").addText(predicate);
             }

@@ -5,6 +5,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 public @interface PostQuery {
-    int order(); //The order of the post query function invocations
+    int order() default -1;
     String[] params() default {""};
 }

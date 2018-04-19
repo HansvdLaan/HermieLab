@@ -31,7 +31,7 @@ public final class ExperimentFileGeneratorTests {
         Map<String, Object> params1 = new HashMap<>();
         params1.put("output","output1");
         params1.put("input","buttonRocket1Press");
-        params1.put("id",ID1);
+        params1.put("ID",ID1);
         params1.put("transform","transformID");
         params1.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID1,params1));
@@ -39,7 +39,7 @@ public final class ExperimentFileGeneratorTests {
         Map<String, Object> params2 = new HashMap<>();
         params2.put("output","output1");
         params2.put("input","buttonRocket1Release");
-        params2.put("id",ID2);
+        params2.put("ID",ID2);
         params1.put("transform","transformID");
         params2.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID2,params2));
@@ -47,14 +47,14 @@ public final class ExperimentFileGeneratorTests {
         Map<String, Object> params3 = new HashMap<>();
         params3.put("output","output1");
         params3.put("input","buttonRocket1Drag");
-        params3.put("id",ID3);
+        params3.put("ID",ID3);
         params1.put("transform","transformID");
         params3.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID3,params3));
 
         Map<String,Object> params4 = new HashMap<>();
         params4.put("automaton","DFA");
-        params4.put("id","startMethod");
+        params4.put("ID","startMethod");
         params4.put("type","start");
         settings.addElement( new GeneratorInformationElement("start","startMethod", params4));
     }

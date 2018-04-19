@@ -25,8 +25,8 @@ public class GeneratorUtils {
                 .addModifiers(Modifier.PUBLIC)
                 .addAnnotation(Override.class)
                 .returns(returnType)
-                .addParameter(String.class, "ID")
-                .beginControlFlow("switch(ID)");
+                .addParameter(String.class, "fieldID")
+                .beginControlFlow("switch(fieldID)");
         for (String methodID: methods.keySet()) {
             if (isVoid) {
                 builder.addCode("case \"" + methodID + "\":\n")
@@ -66,7 +66,7 @@ public class GeneratorUtils {
         }
         builder.addCode("default:\n")
                 .addCode(CodeBlock.builder().indent().build())
-                .addStatement("throw new $T(\"" + methodName + ":unkown ID:\" + ID)", IllegalArgumentException.class)
+                .addStatement("throw new $T(\"" + methodName + ":unkown fieldID:\" + fieldID)", IllegalArgumentException.class)
                 .addCode(CodeBlock.builder().unindent().build())
                 .endControlFlow();
         return builder.build();

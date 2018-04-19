@@ -31,7 +31,7 @@ public final class MappingsFileGeneratorTests {
         Map<String, Object> params1 = new HashMap<>();
         params1.put("concreteoutput","output1");
         params1.put("concreteinput","buttonRocket1Press");
-        params1.put("id",ID1);
+        params1.put("ID",ID1);
         params1.put("transform","transformID");
         params1.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID1,params1));
@@ -39,7 +39,7 @@ public final class MappingsFileGeneratorTests {
         Map<String, Object> params2 = new HashMap<>();
         params2.put("concreteoutput","output1");
         params2.put("concreteinput","buttonRocket1Release");
-        params2.put("id",ID2);
+        params2.put("ID",ID2);
         params2.put("transform","transformID");
         params2.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID2,params2));
@@ -47,7 +47,7 @@ public final class MappingsFileGeneratorTests {
         Map<String, Object> params3 = new HashMap<>();
         params3.put("concreteoutput","output1");
         params3.put("concreteinput","buttonRocket1Drag");
-        params3.put("id",ID3);
+        params3.put("ID",ID3);
         params3.put("transform","transformID");
         params3.put("type",type);
         settings.addElement(new GeneratorInformationElement(type,ID3,params3));

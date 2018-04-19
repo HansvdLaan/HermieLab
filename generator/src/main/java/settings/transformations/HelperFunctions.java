@@ -39,7 +39,7 @@ public class HelperFunctions {
     }
 
     // X : Any -> Predicate Reference: {Predicate}
-    //If it's a library function, it will replace the reference with the ID of a newly created predicate
+    //If it's a library function, it will replace the reference with the fieldID of a newly created predicate
     //If it's not a library function, it will just create a reference
     public static TransformationResult processPredicateReferences(Settings settings, GeneratorInformationElement element) {
         Set<GeneratorInformationElement> newElements = new HashSet<>();

@@ -5,6 +5,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 public @interface PreInputInvocation {
-    int order(); //The order of the pre input function invocations
+    int order() default -1;
     String[] params() default {""};
 }

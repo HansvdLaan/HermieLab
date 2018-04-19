@@ -26,7 +26,7 @@ public class GeneratorInformationElementParser {
 
        List<Node> nodeList = node.selectNodes("*");
        for (Node infoNode : nodeList) {
-           if (infoNode.getName().equals("id")){
+           if (infoNode.getName().equals("ID")){
                id = infoNode.getText();
                element.setID(id);
            } else {

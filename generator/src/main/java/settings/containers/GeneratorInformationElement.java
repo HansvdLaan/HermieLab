@@ -26,7 +26,7 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
         singleAttributes = new HashMap<>();
         ordenedAttributes = new HashMap<>();
         singleAttributes.put("type",type);
-        singleAttributes.put("id",id);
+        singleAttributes.put("ID",id);
         parents = new LinkedList<>();
         children = new LinkedList<>();
     }
@@ -41,7 +41,7 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
     public GeneratorInformationElement(String type, String id, Map<String, Object> attributes){
         this(type,id);
         for (String attributeType: attributes.keySet()){
-            if (!(Objects.equals(attributeType, "id") || Objects.equals(attributeType, "type"))) {
+            if (!(Objects.equals(attributeType, "ID") || Objects.equals(attributeType, "type"))) {
                 addAttribute(attributeType, attributes.get(attributeType));
             }
         }
@@ -50,7 +50,7 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
     public GeneratorInformationElement(String type, String id, GeneratorInformationElement parent, Map<String, Object> attributes){
         this(type,id,parent);
         for (String attributeType: attributes.keySet()){
-            if (!(Objects.equals(attributeType, "id") || Objects.equals(attributeType, "type"))) {
+            if (!(Objects.equals(attributeType, "ID") || Objects.equals(attributeType, "type"))) {
                 addAttribute(attributeType, attributes.get(attributeType));
             }
         }
@@ -81,7 +81,7 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
     }
 
     public void addAttribute(String type, Object value) {
-        if (Objects.equals(type, "type") || Objects.equals(type, "id")) {
+        if (Objects.equals(type, "type") || Objects.equals(type, "ID")) {
             throw new IncorrectElementException("cannot edit " + type + " of an Generator Information Element");
         }
         if (!singleAttributes.containsKey(type) && !ordenedAttributes.containsKey(type)) {
@@ -227,7 +227,7 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
 
     public void setID(String id) {
         this.id = id;
-        overwriteAttribute("id",id);
+        overwriteAttribute("ID",id);
     }
 
     public List<Pair<String,String>> getParents() {
@@ -295,7 +295,7 @@ public class GeneratorInformationElement implements Comparable<GeneratorInformat
     @Override
     public String toString() {
         return "GeneratorInformationElement{" +
-                "id='" + id + '\'' +
+                "ID='" + id + '\'' +
                 ", type='" + type + '\'' +
                 ", singleAttributes=" + singleAttributes +
                 ", ordenedAttributes=" + ordenedAttributes +

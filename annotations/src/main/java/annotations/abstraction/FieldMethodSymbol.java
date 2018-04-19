@@ -9,8 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Repeatable(FieldMethodSymbols.class)
 public @interface FieldMethodSymbol {
-    String inputFieldID();
+    String fieldID();
     String[] fieldMethods();
-    String[] outputFunctionIDs();
+    String[] outputIDs();
     String[] params() default {""};
 }

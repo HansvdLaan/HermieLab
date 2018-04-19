@@ -8,8 +8,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Repeatable(WidgetSymbols.class)
 public @interface WidgetSymbol {
-    String inputWidgetID();
+    String widgetID();
     String[] events();
-    String[] outputFunctionIDs();
+    String[] outputIDs();
     String[] params() default {""};
 }

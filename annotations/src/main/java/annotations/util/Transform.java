@@ -8,6 +8,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Repeatable(Transforms.class)
 public @interface Transform {
-    String id(); //The id of this Predicate Function
+    String ID();
     String[] params() default {""};
 }

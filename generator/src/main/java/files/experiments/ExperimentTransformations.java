@@ -15,7 +15,7 @@ public class ExperimentTransformations {
         for (String startID : startElemMap.keySet()) {
             Element experimentElem = root.addElement("experiment");
             GeneratorInformationElement startElem = startElemMap.get(startID);
-            experimentElem.addElement("id").addText("experiment" + counter);
+            experimentElem.addElement("ID").addText("experiment" + counter);
             experimentElem.addElement("automaton").addText(startElem.getAttribute("automaton").get(0).toString());
             experimentElem.addElement("membershiporacle").addText("TBA");
             experimentElem.addElement("equivilanceoracle").addText("TBA");

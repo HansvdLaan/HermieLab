@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 @Repeatable(OutputFunctions.class)
 public @interface OutputFunction {
-    String id(); //The id of this Output Function
+    String ID(); //The ID of this Output Function
     String[] params() default {""};
 }

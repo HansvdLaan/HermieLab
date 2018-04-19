@@ -30,7 +30,7 @@ public final class ConcreteElementsTransformationsTests {
     }
 
     public static GeneratorInformationElement buildInputWidgetDummy() {
-        return TransformationTestHelperFunctions.generateElement("inputwidget","inputWidgetID",
+        return TransformationTestHelperFunctions.generateElement("inputwidget","widgetID",
                 "class","classX",
                 "field","buttonX",
                 "predicate","predicateID1",
@@ -90,7 +90,7 @@ public final class ConcreteElementsTransformationsTests {
    @Test
     public void processInputFieldMethodsTest(){
 //
-//       GeneratorInformationElement elem = new GeneratorInformationElement("type","id");
+//       GeneratorInformationElement elem = new GeneratorInformationElement("type","ID");
 //       elem.addAttribute("t","b1");
 //       elem.addAttribute("t","b2");
 //       elem.addAttribute("t","a3");

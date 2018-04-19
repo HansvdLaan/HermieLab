@@ -28,6 +28,8 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -55,9 +57,9 @@ import org.dom4j.io.XMLWriter;
 public class AnnotationsProcessor extends AbstractProcessor {
 
     //public static final String STARTFUNCTION = "annotations.Start";
-    private static List<String> generalSettings = Arrays.asList("id","order","experiment","automaton","empty","ignore",
+    private static List<String> generalSettings = Arrays.asList("ID","order","experiment","automaton","empty","ignore",
             "input","event(#[0-9]*)?","output(#[0-9]*)?","transform","param#[0-9]+","predicate(#[0-9]*)?","predicate#nfa(#[0-9]*)?","predicate#nfa#settings(#[0-9]*)?","class","field","method(#[0-9]*)?");
-    private boolean initialProcessingDone;
+    private boolean initialProcessingDone = false;
 
   @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
@@ -75,6 +77,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
         if (initialProcessingDone){
             return initialProcessingDone;
         }
+
         // root elements
         Document document = DocumentHelper.createDocument();
         document.setName("annotation-settings");
@@ -125,11 +128,6 @@ public class AnnotationsProcessor extends AbstractProcessor {
         writeElementsToXML(root, inputFieldMethods, InputFieldMethod.class);
         writeElementsToXML(root, outputFieldMethods, OutputFieldMethod.class);
 
-//        Map<Class,List<general.AnnotatedElement>> annotatedElementMap = generateElements(FunctionSymbol.class, roundEnv);
-//        if (annotatedElementMap.get(InputFunction.class) != null) {
-//            inputFunctions.addAll(annotatedElementMap.get(InputFunction.class));
-//        }
-
         writeElementsToXML(root, inputFunctions, InputFunction.class);
 
         System.out.println("output functions:" + outputFunctions);
@@ -159,8 +157,6 @@ public class AnnotationsProcessor extends AbstractProcessor {
             FileOutputStream fop = new FileOutputStream(file);
             writer = new XMLWriter( fop, format );
             writer.write( document );
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -186,7 +182,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(InputFunction.class)){
                 InputFunction annotation = element.getAnnotation(InputFunction.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters = parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("method", element.toString());
@@ -194,7 +190,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(InputFieldMethod.class)){
                 InputFieldMethod annotation = element.getAnnotation(InputFieldMethod.class);
-                id = annotation.inputFieldID();
+                id = annotation.fieldID();
                 parameters = parseParameters(annotation.params());
 
                 int methodIndex = 1;
@@ -204,7 +200,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
                 }
 
 //                int eventIndex = 0;
-//                for (String outputID: annotation.outputFunctionIDs()){
+//                for (String outputID: annotation.outputIDs()){
 //                    parameters.put("output#" + eventIndex, outputID);
 //                    eventIndex++;
 //                }
@@ -234,12 +230,12 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(InputWidget.class)) {
                 InputWidget annotation = element.getAnnotation(InputWidget.class);
-                id = annotation.inputWidgetID();
+                id = annotation.widgetID();
                 parameters = parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("field", element.toString());
                 int outputIndex = 0;
-//                for (String event: annotation.outputFunctionIDs()){
+//                for (String event: annotation.outputIDs()){
 //                    parameters.put("output" + outputIndex, event);
 //                    outputIndex++;
 //                }
@@ -264,7 +260,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             else if (annotationType.equals(OutputFunction.class)){
                 System.out.println("An output function was found " + element);
                 OutputFunction annotation = element.getAnnotation(OutputFunction.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters =  parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("method", element.toString());
@@ -272,7 +268,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(OutputFieldMethod.class)){
                 OutputFieldMethod annotation = element.getAnnotation(OutputFieldMethod.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters =  parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("field", element.toString());
@@ -281,7 +277,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(Parameter.class)) {
                 Parameter annotation = element.getAnnotation(Parameter.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters = parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("field", element.toString());
@@ -289,7 +285,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(ParameterGenerator.class)) {
                 ParameterGenerator annotation = element.getAnnotation(ParameterGenerator.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters = parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("method", element.toString());
@@ -297,7 +293,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(Transform.class)) {
                 Transform annotation = element.getAnnotation(Transform.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters =  parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("method", element.toString());
@@ -329,7 +325,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
             }
             else if (annotationType.equals(Predicate.class)) {
                 Predicate annotation = element.getAnnotation(Predicate.class);
-                id = annotation.id();
+                id = annotation.ID();
                 parameters =  parseParameters(annotation.params());
                 parameters.put("class", element.getEnclosingElement().toString());
                 parameters.put("method", element.toString());
@@ -392,7 +388,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
 
             org.dom4j.Element xmlElem = typeElem.addElement(annotationClass.getSimpleName().toLowerCase());
             if (element.getId() != null) {
-                xmlElem.addElement("id").addText(element.getId());
+                xmlElem.addElement("ID").addText(element.getId());
             }
             if (element.getOrder() > -2) {
                 xmlElem.addElement("order").addText(String.valueOf(element.getOrder()));
@@ -433,17 +429,17 @@ public class AnnotationsProcessor extends AbstractProcessor {
     }
 
     private AnnotatedElement generateFunctionSymbolElement(FunctionSymbol annotation, Element element){
-        String id = annotation.inputSymbolID();
+        String id = annotation.symbolID();
         Map<String,String> parameters = parseParameters(annotation.params());
-        parameters.put("input",annotation.inputFunctionID());
-        parameters.put("output",annotation.outputFunctionID());
+        parameters.put("input",id+"InputFunction");
+        parameters.put("output", annotation.outputID());
         parameters.put("class", element.getEnclosingElement().toString());
         parameters.put("method", element.toString());
         return new AnnotatedElement(element,parameters,id);
     }
 
     private AnnotatedElement generateWidgetSymbolElement(WidgetSymbol annotation, Element element) {
-        String id = annotation.inputWidgetID();
+        String id = annotation.widgetID();
         Map<String,String> parameters = parseParameters(annotation.params());
         parameters.put("class", element.getEnclosingElement().toString());
         parameters.put("field", element.toString());
@@ -455,7 +451,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
         }
 
         int outputIndex = 0;
-        for (String event: annotation.outputFunctionIDs()){
+        for (String event: annotation.outputIDs()){
             parameters.put("output-" + outputIndex, event);
             outputIndex++;
         }
@@ -464,7 +460,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
 
 
     private AnnotatedElement generateFieldMethodSymbolElement(FieldMethodSymbol annotation, Element element){
-        String id = annotation.inputFieldID();
+        String id = annotation.fieldID();
         Map<String,String> parameters = parseParameters(annotation.params());
 
         int methodIndex = 1;
@@ -474,7 +470,7 @@ public class AnnotationsProcessor extends AbstractProcessor {
         }
 
         int eventIndex = 0;
-        for (String outputID: annotation.outputFunctionIDs()){
+        for (String outputID: annotation.outputIDs()){
             parameters.put("output-" + eventIndex, outputID);
             eventIndex++;
         }

@@ -9,7 +9,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 @Repeatable(OutputFieldMethods.class)
 public @interface OutputFieldMethod {
-    String id();
+    String ID();
     String fieldMethod();
     String[] params() default {""};
 }

@@ -5,6 +5,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.METHOD)
 public @interface PreQuery {
-    int order(); //The order of the pre query function invocations.
+    int order() default -1;
     String[] params() default {""};
 }

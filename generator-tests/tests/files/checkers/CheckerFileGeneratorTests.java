@@ -37,7 +37,7 @@ public final class CheckerFileGeneratorTests {
         params1.put("input","rectractPermission");
         params1.put("predicate","p1");
         params1.put("method","setPermission(boolean)");
-        params1.put("id",ID1);
+        params1.put("ID",ID1);
         params1.put("type",type);
         params1.put("class","GamceController");
         params1.put("paramater","Bool:False");
@@ -49,7 +49,7 @@ public final class CheckerFileGeneratorTests {
         params2.put("input","rectractPermission");
         params2.put("predicate","p1");
         params2.put("method","setPermission(boolean)");
-        params2.put("id",ID2);
+        params2.put("ID",ID2);
         params2.put("type",type);
         params2.put("class","GamceController");
         params2.put("paramater","Bool:False");
@@ -61,7 +61,7 @@ public final class CheckerFileGeneratorTests {
         params3.put("input","rectractPermission2");
         params3.put("predicate","p1");
         params3.put("method","setPermission(boolean)");
-        params3.put("id",ID3);
+        params3.put("ID",ID3);
         params3.put("type",type);
         params3.put("class","GameController");
         params3.put("paramater","Bool:False");
@@ -73,7 +73,7 @@ public final class CheckerFileGeneratorTests {
         params4.put("input","rectractPermission");
         params4.put("predicate","p1");
         params4.put("method","setPermission(boolean)");
-        params4.put("id",ID4);
+        params4.put("ID",ID4);
         params4.put("type",type);
         params4.put("class","GamceController");
         params4.put("paramater","Bool:False");
@@ -85,7 +85,7 @@ public final class CheckerFileGeneratorTests {
         params5.put("input","rectractPermission2");
         params5.put("predicate","p1");
         params5.put("method","setPermission(boolean)");
-        params5.put("id",ID5);
+        params5.put("ID",ID5);
         params5.put("type",type);
         params5.put("class","GameController");
         params5.put("paramater","Bool:False");
@@ -113,7 +113,7 @@ public final class CheckerFileGeneratorTests {
         FileTestUtils.testElem(group, "group", 2);
 
         Element id = FileTestUtils.getContent(group).get(0);
-        FileTestUtils.testElem(id, "id", "G1",1);
+        FileTestUtils.testElem(id, "ID", "G1",1);
 
         Element nfa = FileTestUtils.getContent(group).get(1);
         FileTestUtils.testElem(nfa, "nfa", "",5);
@@ -137,9 +137,9 @@ public final class CheckerFileGeneratorTests {
         FileTestUtils.testElem(inputs.get(0),"input",2);
         FileTestUtils.testElem(inputs.get(1),"input",2);
 
-        FileTestUtils.testElem(FileTestUtils.getContent(inputs.get(0)).get(0),"id","permissionFalse",1);
+        FileTestUtils.testElem(FileTestUtils.getContent(inputs.get(0)).get(0),"ID","permissionFalse",1);
         FileTestUtils.testElem(FileTestUtils.getContent(inputs.get(0)).get(1),"predicate","p1",1);
-        FileTestUtils.testElem(FileTestUtils.getContent(inputs.get(1)).get(0),"id","permissionTrue",1);
+        FileTestUtils.testElem(FileTestUtils.getContent(inputs.get(1)).get(0),"ID","permissionTrue",1);
         FileTestUtils.testElem(FileTestUtils.getContent(inputs.get(1)).get(1),"predicate","p1",1);
     }
 

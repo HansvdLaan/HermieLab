@@ -5,6 +5,6 @@ import java.lang.annotation.Target;
 
 @Target(ElementType.FIELD)
 public @interface Parameter {
-    String id(); //The id of this Predicate Function
+    String ID();
     String[] params() default {""};
 }

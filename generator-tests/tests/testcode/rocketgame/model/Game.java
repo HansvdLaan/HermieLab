@@ -54,7 +54,7 @@ public class Game {
         this.permission = permission;
     }
 
-    @OutputFunction(id = "output1", params = "")
+    @OutputFunction(ID = "output1", params = "")
     @Override
     public String toString() {
         return "Game{" +

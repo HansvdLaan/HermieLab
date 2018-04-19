@@ -1,5 +1,7 @@
 package general;
 
+import com.sun.istack.internal.NotNull;
+
 import javax.lang.model.element.Element;
 import java.util.Map;
 
@@ -92,7 +94,7 @@ public class AnnotatedElement implements Comparable{
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(@NotNull Object o) {
         if(o instanceof AnnotatedElement) {
             AnnotatedElement ce = (AnnotatedElement) o;
             if (order < ce.getOrder()) {
@@ -110,7 +112,7 @@ public class AnnotatedElement implements Comparable{
     @Override
     public String toString() {
         return "AnnotatedElement{" +
-                "id='" + id + '\'' +
+                "ID='" + id + '\'' +
                 ", \n element=" + element +
                 ", \nparameters=" + parameters +
                 ", \norder=" + order +
