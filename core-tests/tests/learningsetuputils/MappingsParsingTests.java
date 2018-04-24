@@ -1,7 +1,7 @@
 package learningsetuputils;
 
-import learningsetup.LearningSetupUtils;
-import mapper.ConcreteInvocation;
+import hermielab.core.learningsetup.LearningSetupUtils;
+import hermielab.core.mapper.ConcreteInvocation;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.junit.BeforeClass;
@@ -21,6 +21,7 @@ public final class MappingsParsingTests {
     @BeforeClass
     public static void setUp() throws NoSuchMethodException, DocumentException {
         Path mappingsPath = Paths.get("tests","learningsetuputils","mappings.xml");
+        //TODO: Error if file not found!
         mappings = LearningSetupUtils.toDocument(mappingsPath.toFile());
     }
 

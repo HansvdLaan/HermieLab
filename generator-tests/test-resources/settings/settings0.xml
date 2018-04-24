@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<settings>
+<hermielab.generator.settings>
   <widgetsymbol>
     <id>buttonRocket1</id>
     <class>testcode.rocketgame.controller.GameController</class>
@@ -85,12 +85,12 @@
   <start>
     <order>0</order>
     <automaton>DFA</automaton>
-    <class>methodContainer.annotations.testgame.example1_rocketgame.RocketGame</class>
+    <class>methodContainer.hermielab.annotations.testgame.example1_rocketgame.RocketGame</class>
     <method>start(javafx.stage.Stage)</method>
   </start>
   <postquery>
     <order>0</order>
-    <class>methodContainer.annotations.testgame.example1_rocketgame.RocketGame</class>
+    <class>methodContainer.hermielab.annotations.testgame.example1_rocketgame.RocketGame</class>
     <method>showGameView()</method>
   </postquery>
-</settings>
+</hermielab.generator.settings>

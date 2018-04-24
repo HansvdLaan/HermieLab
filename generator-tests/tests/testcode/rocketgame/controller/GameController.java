@@ -1,7 +1,7 @@
 package testcode.rocketgame.controller;
 
-import annotations.abstraction.FieldMethodSymbol;
-import annotations.abstraction.WidgetSymbol;
+import hermielab.annotations.abstraction.FieldMethodSymbol;
+import hermielab.annotations.abstraction.WidgetSymbol;
 import testcode.rocketgame.model.Game;
 import testcode.rocketgame.model.RocketStatus;
 import javafx.collections.ListChangeListener;
@@ -11,7 +11,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
-import annotations.abstraction.FunctionSymbol;
+import hermielab.annotations.abstraction.FunctionSymbol;
 
 public class GameController {
 
@@ -23,11 +23,11 @@ public class GameController {
     private boolean rocket2activated;
     public Circle permissionIndicator;
 
-    @WidgetSymbol(widgetID = "buttonRocket1", outputIDs = {"output"}, events = {"press","release","drag"}, params = "")
-    @FieldMethodSymbol(fieldID = "button1RocketField", outputIDs = "output", fieldMethods = {"setVisible(bool)","setVisible(bool)"}, params = {"param#1:Bool:True","param#2:Bool:False"})
+    @WidgetSymbol(widgetID = "buttonRocket1", outputIDs = {"output"}, events = {"press","release","drag"})
+    @FieldMethodSymbol(fieldID = "button1RocketField", outputIDs = "output", fieldMethods = {"setVisible(bool)","setVisible(bool)"}, parameters = {"Bool:True","Bool:False"})
     public Button buttonRocket1;
 
-    @WidgetSymbol(widgetID = "buttonRocket2", outputIDs = {"output"}, events = {"press","release","drag"}, params = "")
+    @WidgetSymbol(widgetID = "buttonRocket2", outputIDs = {"output"}, events = {"press","release","drag"})
     public Button buttonRocket2;
 
     public GameController(){
@@ -70,10 +70,10 @@ public class GameController {
         });
     }
 
-    @FunctionSymbol(symbolID = "permissionTrue",inputFunctionID = "givePermission",outputFunctionID = "output",
-            params = {"nfapredicate:testNFA#NFARepeatSequence2[1]#G1","predicate:p1","param#1:Bool:True"})
-    @FunctionSymbol(symbolID = "permissionFalse",inputFunctionID = "retractPermission",outputFunctionID = "output",
-            params = {"nfapredicate:testNFA#NFARepeatSequence2[2]#G1","predicate:p1","param#1:Bool:False"})
+    @FunctionSymbol(symbolID = "permissionTrue",outputID = "output",
+            nfapredicates = {"testNFA#NFARepeatSequence2[1]#G1"}, predicates = {"p1"}, parameters = {"Bool:True"})
+    @FunctionSymbol(symbolID = "permissionFalse",outputID = "output",
+            nfapredicates = {"testNFA#NFARepeatSequence2[1]#G1"}, predicates = {"p1"}, parameters = {"Bool:False"})
     public void setPermission(boolean permission){
         game.setPermission(permission);
         if (permission){

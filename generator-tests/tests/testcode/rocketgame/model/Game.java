@@ -1,6 +1,6 @@
 package testcode.rocketgame.model;
 
-import annotations.concrete.OutputFunction;
+import hermielab.annotations.concrete.OutputFunction;
 import com.sun.javafx.collections.ObservableListWrapper;
 import javafx.collections.ObservableList;
 import java.util.LinkedList;
@@ -54,7 +54,7 @@ public class Game {
         this.permission = permission;
     }
 
-    @OutputFunction(ID = "output1", params = "")
+    @OutputFunction(ID = "output1")
     @Override
     public String toString() {
         return "Game{" +

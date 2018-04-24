@@ -1,7 +1,6 @@
 package testcode.utils;
-import annotations.util.ParameterGenerator;
-import settings.transformers.ParameterGeneratorTransformer;
-import settings.transformers.PredicateTransformer;
+import hermielab.generator.settings.transformers.ParameterGeneratorTransformer;
+import hermielab.generator.settings.transformers.PredicateTransformer;
 public class Importer {
 
     public Importer(){

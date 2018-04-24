@@ -3,15 +3,15 @@ package components.utils;
 import com.google.testing.compile.Compiler;
 import com.google.testing.compile.JavaFileObjects;
 import com.squareup.javapoet.TypeSpec;
-import component.ComponentGenerator;
-import component.adapter.AdapterGenerator;
-import component.adapter.AdapterTransformations;
+import hermielab.generator.component.ComponentGenerator;
+import hermielab.generator.component.adapter.AdapterGenerator;
+import hermielab.generator.component.adapter.AdapterTransformations;
 import org.dom4j.DocumentException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import settings.Settings;
-import settings.containers.GeneratorInformationElement;
-import utils.ClassUtils;
+import hermielab.generator.settings.Settings;
+import hermielab.generator.settings.containers.GeneratorInformationElement;
+import hermielab.generator.utils.ClassUtils;
 import utils.DummyPreProcessor;
 
 import java.net.MalformedURLException;
@@ -33,18 +33,20 @@ public final class AggregatorGeneratorTests {
 
     public static Settings parameterGeneratorSettings; //User-defined field parameter
 
+    public static Settings startSettings; //Just settings with a single start method
+
     @BeforeClass
     public static void setUpProcessor() throws DocumentException, MalformedURLException {
         DummyPreProcessor processor = (DummyPreProcessor) Compiler.javac().withProcessors(new DummyPreProcessor()).compile(
-                JavaFileObjects.forResource(Paths.get("tests","testcode","utils","GeneratorUtilsTestClass.java").toFile().toURL()),
-                JavaFileObjects.forResource(Paths.get("tests","testcode","utils","Importer.java").toFile().toURL())
+                JavaFileObjects.forResource(Paths.get("tests","testcode", "utils","GeneratorUtilsTestClass.java").toFile().toURL()),
+                JavaFileObjects.forResource(Paths.get("tests","testcode", "utils","Importer.java").toFile().toURL())
                 ).compiler().processors().get(0);
         ClassUtils.getInstance().setPrEnv(processor.getPreEnv());
     }
     
     //Basic Scenario, just a few Input Functions, a few Output Functions, a few Predicate Functions and a start Method
     //There is one Input, one Output and one Predicate function which only has a reference
-    //There is one basic ParameterGenerator and one Predicate reference.
+    //There is one hermielab.processor.basic ParameterGenerator and one Predicate reference.
     public static Settings scenario1Settings;
 
     
@@ -192,6 +194,19 @@ public final class AggregatorGeneratorTests {
         parameterGeneratorSettings.addReference("parametergenerator", "ParameterGenerator2");
     }
 
+    @BeforeClass
+    public static void setUpStartSettings() {
+        String type = "start";
+
+        startSettings = new Settings();
+        Map<String,Object> data = new HashMap<>();
+        data.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data.put("method","method1()");
+        GeneratorInformationElement element = new GeneratorInformationElement(type, "ParameterGenerator2", data);
+        startSettings.addElement(element);
+
+    }
+
     /// Testing Input Functions ///
     
     @Test
@@ -224,6 +239,17 @@ public final class AggregatorGeneratorTests {
         ComponentGenerator generator = new AdapterGenerator(predicateSettings);
         generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
         generator.addTransformation(AdapterTransformations.GenerateSwitchCaseAggregators);
+        generator.applyTransformations();
+
+        TypeSpec adapter = generator.generateComponent();
+    }
+
+    @Test
+    public void basicStartTest(){
+        ComponentGenerator generator = new AdapterGenerator(startSettings);
+        generator.addTransformation(AdapterTransformations.GenerateWrappedMethods);
+        //generator.addTransformation(AdapterTransformations.AddSULInitializationToStartAggregator);
+        generator.addTransformation(AdapterTransformations.GenerateAggregators);
         generator.applyTransformations();
 
         TypeSpec adapter = generator.generateComponent();

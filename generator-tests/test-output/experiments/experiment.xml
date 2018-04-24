@@ -2,7 +2,7 @@
 
 <experiments>
   <experiment>
-    <id>experiment1</id>
+    <ID>experiment1</ID>
     <automaton>DFA</automaton>
     <membershiporacle>TBA</membershiporacle>
     <equivilanceoracle>TBA</equivilanceoracle>

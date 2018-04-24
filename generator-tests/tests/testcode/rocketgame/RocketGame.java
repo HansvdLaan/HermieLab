@@ -1,6 +1,6 @@
 package testcode.rocketgame;
 
-import annotations.setup.Start;
+import hermielab.annotations.setup.Start;
 import javafx.application.Application;
 //import javafx.fxml.FXMLLoader;
 //import javafx.scene.Scene;
@@ -10,7 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
-import annotations.setup.PostQuery;
+import hermielab.annotations.setup.PostQuery;
 
 import java.io.IOException;
 
@@ -28,7 +28,7 @@ public class RocketGame extends Application {
     private BorderPane rootLayout;
 
     @Override
-    @Start(automaton = "DFA", params = "")
+    @Start(automaton = "DFA")
     public void start(Stage primaryStage) throws IOException {
         //1) Declare a primary stage (Everything will be on this stage)
 
@@ -65,7 +65,7 @@ public class RocketGame extends Application {
     }
 
     //Shows the game view inside the root layout.
-    @PostQuery(order = 0, params = "")
+    @PostQuery(order = 0)
     public void showGameView() {
         try {
             //First, load EmployeeOperationsView from EmployeeOperations.fxml

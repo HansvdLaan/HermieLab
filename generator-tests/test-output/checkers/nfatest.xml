@@ -3,7 +3,7 @@
 <checkers>
   <guichecker>
     <group>
-      <id>GUI</id>
+      <ID>GUI</ID>
       <nfa>
         <name>someNFA</name>
         <file>anotherNFA.jff</file>
@@ -18,7 +18,7 @@
   </guichecker>
   <nfachecker>
     <group>
-      <id>G1</id>
+      <ID>G1</ID>
       <nfa>
         <name>testNFA</name>
         <file>NFARepeatSequence2.jff</file>

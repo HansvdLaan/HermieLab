@@ -3,23 +3,23 @@
 <checkers>
   <predicatechecker>
     <input>
-      <id>permissionFalse</id>
+      <ID>permissionFalse</ID>
       <predicate>p1</predicate>
     </input>
     <input>
-      <id>permissionTrue</id>
+      <ID>permissionTrue</ID>
       <predicate>p1</predicate>
     </input>
     <input>
-      <id>permissionAlsoFalse</id>
+      <ID>permissionAlsoFalse</ID>
       <predicate>p1</predicate>
     </input>
     <input>
-      <id>inputfuntionID5</id>
+      <ID>inputfuntionID5</ID>
       <predicate>p1</predicate>
     </input>
     <input>
-      <id>inputfuntionID4</id>
+      <ID>inputfuntionID4</ID>
       <predicate>p1</predicate>
     </input>
   </predicatechecker>

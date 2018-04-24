@@ -2,15 +2,15 @@ package components.utils;
 
 import com.google.testing.compile.JavaFileObjects;
 import com.squareup.javapoet.TypeSpec;
-import component.ComponentGenerator;
-import component.adapter.AdapterGenerator;
-import component.adapter.AdapterTransformations;
+import hermielab.generator.component.ComponentGenerator;
+import hermielab.generator.component.adapter.AdapterGenerator;
+import hermielab.generator.component.adapter.AdapterTransformations;
 import org.dom4j.DocumentException;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import settings.Settings;
-import settings.containers.GeneratorInformationElement;
-import utils.ClassUtils;
+import hermielab.generator.settings.Settings;
+import hermielab.generator.settings.containers.GeneratorInformationElement;
+import hermielab.generator.utils.ClassUtils;
 import utils.DummyPreProcessor;
 
 import java.net.MalformedURLException;
@@ -57,15 +57,15 @@ public final class WrapperGeneratorTests {
     @BeforeClass
     public static void setUpProcessor() throws DocumentException, MalformedURLException {
         DummyPreProcessor processor = (DummyPreProcessor) javac().withProcessors(new DummyPreProcessor()).compile(
-                JavaFileObjects.forResource(Paths.get("tests","testcode","utils","GeneratorUtilsTestClass.java").toFile().toURL()),
-                JavaFileObjects.forResource(Paths.get("tests","testcode","utils","Importer.java").toFile().toURL())
+                JavaFileObjects.forResource(Paths.get("tests","testcode", "utils","GeneratorUtilsTestClass.java").toFile().toURL()),
+                JavaFileObjects.forResource(Paths.get("tests","testcode", "utils","Importer.java").toFile().toURL())
                 ).compiler().processors().get(0);
         ClassUtils.getInstance().setPrEnv(processor.getPreEnv());
     }
     
     //Basic Scenario, just a few Input Functions, a few Output Functions, a few Predicate Functions and a start Method
     //There is one Input, one Output and one Predicate function which only has a reference
-    //There is one basic ParameterGenerator and one Predicate reference.
+    //There is one hermielab.processor.basic ParameterGenerator and one Predicate reference.
     public static Settings scenario1Settings;
 
     
@@ -76,14 +76,14 @@ public final class WrapperGeneratorTests {
 
         simpleInputFunctionSettings = new Settings();
         Map<String,Object> data1 = new HashMap<>();
-        data1.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data1.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "InputFunction1", data1);
         simpleInputFunctionSettings.addElement(element1);
 
         parametrizedInputFunctionSettings1 = new Settings();
         Map<String,Object> data2 = new HashMap<>();
-        data2.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data2.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
         data2.put("parameter","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "InputFunction2", data2);
@@ -91,7 +91,7 @@ public final class WrapperGeneratorTests {
 
         parametrizedInputFunctionSettings2 = new Settings();
         Map<String,Object> data3 = new HashMap<>();
-        data3.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data3.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
         data3.put("parameter","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "InputFunction3", data3);
@@ -99,7 +99,7 @@ public final class WrapperGeneratorTests {
 
         parametrizedInputFunctionSettings3 = new Settings();
         Map<String,Object> data4 = new HashMap<>();
-        data4.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data4.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
         data4.put("parameter","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "InputFunction4", data4);
@@ -107,8 +107,8 @@ public final class WrapperGeneratorTests {
 
         parametrizedInputFunctionSettings4 = new Settings();
         Map<String,Object> data5 = new HashMap<>();
-        data5.put("class","testcode.utils.GeneratorUtilsTestClass");
-        data5.put("method","method5(testcode.utils.UserClass)");
+        data5.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
+        data5.put("method","method5(testcode.hermielab.core.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "InputFunction5", data5);
         parametrizedInputFunctionSettings4.addElement(element5);
 
@@ -122,7 +122,7 @@ public final class WrapperGeneratorTests {
                 "field","button1",
                 "method","fireEvent(javafx.event.Event)",
                 "parameter","javaFX:mouse_release",
-                "class","testcode.utils.GeneratorUtilsTestClass"));
+                "class","testcode.hermielab.core.utils.GeneratorUtilsTestClass"));
     }
 
     @BeforeClass
@@ -131,14 +131,14 @@ public final class WrapperGeneratorTests {
 
         simpleOutputFunctionSettings = new Settings();
         Map<String,Object> data1 = new HashMap<>();
-        data1.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data1.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "OutputFunction1", data1);
         simpleOutputFunctionSettings.addElement(element1);
 
         parametrizedOutputFunctionSettings1 = new Settings();
         Map<String,Object> data2 = new HashMap<>();
-        data2.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data2.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
         data2.put("parameter","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "OutputFunction2", data2);
@@ -146,7 +146,7 @@ public final class WrapperGeneratorTests {
 
         parametrizedOutputFunctionSettings2 = new Settings();
         Map<String,Object> data3 = new HashMap<>();
-        data3.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data3.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
         data3.put("parameter","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "OutputFunction3", data3);
@@ -154,7 +154,7 @@ public final class WrapperGeneratorTests {
 
         parametrizedOutputFunctionSettings3 = new Settings();
         Map<String,Object> data4 = new HashMap<>();
-        data4.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data4.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
         data4.put("parameter","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "OutputFunction4", data4);
@@ -162,8 +162,8 @@ public final class WrapperGeneratorTests {
 
         parametrizedOutputFunctionSettings4 = new Settings();
         Map<String,Object> data5 = new HashMap<>();
-        data5.put("class","testcode.utils.GeneratorUtilsTestClass");
-        data5.put("method","method5(testcode.utils.UserClass)");
+        data5.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
+        data5.put("method","method5(testcode.hermielab.core.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "OutputFunction5", data5);
         parametrizedOutputFunctionSettings4.addElement(element5);
 
@@ -177,14 +177,14 @@ public final class WrapperGeneratorTests {
 
         simplePredicateSettings = new Settings();
         Map<String,Object> data1 = new HashMap<>();
-        data1.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data1.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data1.put("method","method1()");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "Predicate1", data1);
         simplePredicateSettings.addElement(element1);
 
         parametrizedPredicateSettings1 = new Settings();
         Map<String,Object> data2 = new HashMap<>();
-        data2.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data2.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data2.put("method","method2(boolean)");
         data2.put("parameter","boolean:true");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "Predicate2", data2);
@@ -192,7 +192,7 @@ public final class WrapperGeneratorTests {
 
         parametrizedPredicateSettings2 = new Settings();
         Map<String,Object> data3 = new HashMap<>();
-        data3.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data3.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data3.put("method","method3(java.lang.String)");
         data3.put("parameter","string:blabla");
         GeneratorInformationElement element3 = new GeneratorInformationElement(type, "Predicate3", data3);
@@ -200,7 +200,7 @@ public final class WrapperGeneratorTests {
 
         parametrizedPredicateSettings3 = new Settings();
         Map<String,Object> data4 = new HashMap<>();
-        data4.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data4.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data4.put("method","method4(javafx.scene.input.MouseEvent)");
         data4.put("parameter","javaFX:mouse_press");
         GeneratorInformationElement element4 = new GeneratorInformationElement(type, "Predicate4", data4);
@@ -208,8 +208,8 @@ public final class WrapperGeneratorTests {
 
         parametrizedPredicateSettings4 = new Settings();
         Map<String,Object> data5 = new HashMap<>();
-        data5.put("class","testcode.utils.GeneratorUtilsTestClass");
-        data5.put("method","method5(testcode.utils.UserClass)");
+        data5.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
+        data5.put("method","method5(testcode.hermielab.core.utils.UserClass)");
         GeneratorInformationElement element5 = new GeneratorInformationElement(type, "Predicate5", data5);
         parametrizedPredicateSettings4.addElement(element5);
 
@@ -221,7 +221,7 @@ public final class WrapperGeneratorTests {
                         new GeneratorInformationElement("testtype","testid"),
                         "method","isAccessible(javafx.scene.Node)",
                         "parameter","buttonRocket_Parameter",
-                        "class","settings.JavaFXPredicates")
+                        "class","hermielab.generator.settings.JavaFXPredicates")
         );
     }
 
@@ -231,14 +231,14 @@ public final class WrapperGeneratorTests {
 
         fieldParameterGeneratorSettings = new Settings();
         Map<String,Object> data1 = new HashMap<>();
-        data1.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data1.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data1.put("field","field1");
         GeneratorInformationElement element1 = new GeneratorInformationElement(type, "ParameterGenerator1", data1);
         fieldParameterGeneratorSettings.addElement(element1);
 
         methodParameterGeneratorSettings = new Settings();
         Map<String,Object> data2 = new HashMap<>();
-        data2.put("class","testcode.utils.GeneratorUtilsTestClass");
+        data2.put("class","testcode.hermielab.core.utils.GeneratorUtilsTestClass");
         data2.put("method","method1()");
         GeneratorInformationElement element2 = new GeneratorInformationElement(type, "ParameterGenerator2", data2);
         methodParameterGeneratorSettings.addElement(element2);
@@ -294,7 +294,7 @@ public final class WrapperGeneratorTests {
         TypeSpec adapter = generator.generateComponent();
         assertTrue(JavaPoetTestUtils.containsMethod(adapter,"inputFunction4",0));
         assertTrue(JavaPoetTestUtils.isCorrectWrapperMethod(adapter, "inputFunction4", "method4",
-                Arrays.asList("settings.JavaFXParameterGenerators.generatePMBPressedEvent()"), Void.TYPE));
+                Arrays.asList("hermielab.generator.settings.JavaFXParameterGenerators.generatePMBPressedEvent()"), Void.TYPE));
     }
 
     @Test
@@ -375,7 +375,7 @@ public final class WrapperGeneratorTests {
         TypeSpec adapter = generator.generateComponent();
         assertTrue(JavaPoetTestUtils.containsMethod(adapter,"outputFunction4",0));
         assertTrue(JavaPoetTestUtils.isCorrectWrapperMethod(adapter, "outputFunction4", "method4",
-                Arrays.asList("settings.JavaFXParameterGenerators.generatePMBPressedEvent()"), Boolean.TYPE));
+                Arrays.asList("hermielab.generator.settings.JavaFXParameterGenerators.generatePMBPressedEvent()"), Boolean.TYPE));
     }
 
     @Test
@@ -443,7 +443,7 @@ public final class WrapperGeneratorTests {
         TypeSpec adapter = generator.generateComponent();
         assertTrue(JavaPoetTestUtils.containsMethod(adapter,"predicate4",0));
         assertTrue(JavaPoetTestUtils.isCorrectWrapperMethod(adapter, "predicate4", "method4",
-                Arrays.asList("settings.JavaFXParameterGenerators.generatePMBPressedEvent()"), Boolean.TYPE));
+                Arrays.asList("hermielab.generator.settings.JavaFXParameterGenerators.generatePMBPressedEvent()"), Boolean.TYPE));
     }
 
     @Test

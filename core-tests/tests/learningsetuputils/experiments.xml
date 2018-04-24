@@ -2,7 +2,7 @@
 
 <experiments>
   <experiment>
-    <id>experiment1</id>
+    <ID>experiment1</ID>
     <automaton>MealyMachine</automaton>
     <membershiporacle>TBA</membershiporacle>
     <equivilanceoracle>TBA</equivilanceoracle>
