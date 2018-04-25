@@ -81,7 +81,7 @@ public class GeneratorUtils {
         for (String className: classNames) {
             try {
                 TypeElement c = ClassUtils.getClass(className);
-                builder.addStatement("this.$T()", c);
+                builder.addStatement("this.$N()", c);
             } catch (ClassNotFoundException e) {
                 e.printStackTrace();
             }
@@ -115,14 +115,14 @@ public class GeneratorUtils {
         return methods;
     }
 
-    public static MethodSpec generateEmptyMethod(String elementID, boolean isVoid){
-        String methodName = elementID.substring(0,1).toLowerCase() + elementID.substring(1);
+    public static MethodSpec generateEmptyMethod(String elementID, boolean isVoid) {
+        String methodName = elementID.substring(0, 1).toLowerCase() + elementID.substring(1);
         MethodSpec.Builder builder = MethodSpec.methodBuilder(methodName)
                 .addModifiers(Modifier.PUBLIC);
-        if (isVoid){
+        if (isVoid) {
             builder.returns(Void.TYPE);
         } else {
-            builder.returns(Boolean.TYPE);
+            builder.returns(Object.class);
         }
         return builder.build();
     }

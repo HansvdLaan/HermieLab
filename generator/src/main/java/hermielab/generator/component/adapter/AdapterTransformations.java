@@ -16,7 +16,6 @@ public class AdapterTransformations {
     public static BiFunction<GeneratedSpecContainer,Settings, GeneratedSpecContainer> GenerateConstructor = (generatedSpecs, settings) -> {
         FieldSpec instanceManager =  generatedSpecs.getFieldsByTypeAndID("instance", "hermielab/core/instancemanager");
         MethodSpec method = MethodSpec.constructorBuilder()
-                .addModifiers(Modifier.PUBLIC)
                 .addParameter(InstanceManager.class, "instanceManager")
                 .addStatement("this.$N = instanceManager",instanceManager).build();
         generatedSpecs.addMethodsByTypeAndID("constructor", "constructor", method);

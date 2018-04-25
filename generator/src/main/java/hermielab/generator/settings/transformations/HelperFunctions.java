@@ -20,7 +20,8 @@ public class HelperFunctions {
     // X : Any -> Reference: {Output Function}
     public static TransformationResult processOutputFunctionReferences(Settings settings, GeneratorInformationElement element) {
         List<String> outputs = element.getStringAttribute("output");
-        outputs.forEach(id -> addReference(settings, "output", id));
+        outputs.removeIf(id -> id.equals("this"));
+        outputs.forEach(id -> addReference(settings, "outputfunction", id));
         return new TransformationResult(settings, new HashSet<>());
     }
 
