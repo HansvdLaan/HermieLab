@@ -10,7 +10,4 @@ import java.lang.annotation.Target;
 @Repeatable(OutputFunctions.class)
 public @interface OutputFunction {
     String ID(); //The ID of this Output Function
-    String[] parameters() default {};
-    String[] predicates() default {};
-    String[] nfapredicates() default {};
 }

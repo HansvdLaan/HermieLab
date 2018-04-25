@@ -11,7 +11,4 @@ import java.lang.annotation.Target;
 public @interface OutputFieldMethod {
     String ID();
     String fieldMethod();
-    String[] parameters() default {};
-    String[] predicates() default {};
-    String[] nfapredicates() default {};
 }
