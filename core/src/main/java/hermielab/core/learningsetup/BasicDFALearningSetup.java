@@ -9,14 +9,12 @@ import de.learnlib.api.MembershipOracle;
 import de.learnlib.eqtests.basic.RandomWordsEQOracle;
 import de.learnlib.experiments.Experiment;
 import net.automatalib.automata.fsa.DFA;
-import net.automatalib.commons.dotutil.DOT;
-import net.automatalib.util.graphs.Path;
-import net.automatalib.util.graphs.dot.GraphDOT;
 import net.automatalib.words.impl.ArrayAlphabet;
 import hermielab.core.oracle.DFASULOracle;
 import org.dom4j.DocumentException;
 import hermielab.core.testdriver.TestDriver;
 
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 

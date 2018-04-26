@@ -8,6 +8,9 @@ import java.lang.annotation.Target;
 /**
  * The annotation type {@code hermielab.annotations.abstraction.WidgetSymbol} is
  * used to create input symbols for events which could be handled by this widget.
+ * When you work with WidgetSymbols, please make sure to have the widgetNFA.jff file in the same
+ * folder as your checkers.xml file. The widgetNFA.jff file can be found in the resource
+ * folder of the HermieLab project.
  */
 @Target(ElementType.FIELD)
 @Repeatable(WidgetSymbols.class)
