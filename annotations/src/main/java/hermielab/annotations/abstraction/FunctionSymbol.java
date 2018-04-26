@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 
 /**
  * The annotation type {@code hermielab.annotations.abstraction.FunctionSymbol} is
- * used to create a new input symbols for this function.
+ * used to create a new input symbol for this function.
  */
 @Target(ElementType.METHOD)
 @Repeatable(FunctionSymbols.class)
