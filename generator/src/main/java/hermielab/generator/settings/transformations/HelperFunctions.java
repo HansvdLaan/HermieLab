@@ -129,6 +129,10 @@ public class HelperFunctions {
         Map mergedSettings = new HashMap();
         mergedSettings.putAll(s1.getSettingsByType(type));
         mergedSettings.putAll(s2.getSettingsByType(type));
+        s1.getSettingsByType(type).keySet().stream().filter(ID -> s1.getSettingsByTypeAndID(type,ID) != null)
+                .forEach(ID -> mergedSettings.put(ID, s1.getSettingsByTypeAndID(type, ID)));
+        s2.getSettingsByType(type).keySet().stream().filter(ID -> s2.getSettingsByTypeAndID(type,ID) != null)
+                .forEach(ID -> mergedSettings.put(ID, s2.getSettingsByTypeAndID(type, ID)));
         return mergedSettings;
     }
 
